@@ -99,7 +99,21 @@ export function Nav() {
       }`}
     >
       <div className="container-narrow flex items-center justify-between gap-4 px-[clamp(1.25rem,4vw,2.5rem)] py-3.5">
-        <Link href="/" className="group flex items-center gap-3">
+        <Link
+          href="/"
+          className="group flex items-center gap-3"
+          onClick={(event) => {
+            setOpen(false);
+            setSectionActive("");
+            // Same-route Link to "/" does not scroll; jump to the top explicitly.
+            if (!onTools) {
+              event.preventDefault();
+              const cleanUrl = `${window.location.pathname}${window.location.search}`;
+              window.history.pushState(null, "", cleanUrl);
+              window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+            }
+          }}
+        >
           <span className="flex h-9 w-9 items-center justify-center border border-accent/40 bg-accent-soft font-mono text-xs font-semibold text-accent transition-colors group-hover:border-accent">
             CA
           </span>
