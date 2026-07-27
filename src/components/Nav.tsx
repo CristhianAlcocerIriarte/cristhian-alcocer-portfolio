@@ -5,6 +5,10 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { navLinks, site } from "@/lib/content";
 
+function sectionId(href: string) {
+  return href.replace(/^#/, "");
+}
+
 export function Nav() {
   const pathname = usePathname();
   const onTools = pathname?.includes("/tools") ?? false;
@@ -33,7 +37,7 @@ export function Nav() {
           .filter((entry) => entry.isIntersecting)
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
         if (visible[0]?.target.id) {
-          setSectionActive(`#${visible[0].target.id}`);
+          setSectionActive(visible[0].target.id);
         }
       },
       { rootMargin: "-35% 0px -50% 0px", threshold: [0.1, 0.35, 0.6] },
@@ -43,16 +47,20 @@ export function Nav() {
     return () => observer.disconnect();
   }, [onTools]);
 
-  const resolveHref = (href: string) => {
-    if (href.startsWith("#")) {
-      return onTools ? `/${href}` : href;
-    }
-    return href;
+  const sectionHref = (href: string) => {
+    const id = sectionId(href);
+    // Always route through the home path so Next.js applies basePath correctly
+    // (plain "/#id" anchors break on GitHub Pages project sites).
+    return { pathname: "/" as const, hash: id };
   };
 
   const links = [
-    ...navLinks.map((link) => ({ ...link, href: resolveHref(link.href) })),
-    { href: "/tools/", label: "Tools" },
+    ...navLinks.map((link) => ({
+      label: link.label,
+      id: sectionId(link.href),
+      kind: "section" as const,
+    })),
+    { label: "Tools", id: "tools", kind: "tools" as const },
   ];
 
   return (
@@ -64,7 +72,7 @@ export function Nav() {
       }`}
     >
       <div className="container-narrow flex items-center justify-between gap-4 px-[clamp(1.25rem,4vw,2.5rem)] py-3.5">
-        <Link href={onTools ? "/" : "#top"} className="group flex items-center gap-3">
+        <Link href="/" className="group flex items-center gap-3">
           <span className="flex h-9 w-9 items-center justify-center border border-accent/40 bg-accent-soft font-mono text-xs font-semibold text-accent transition-colors group-hover:border-accent">
             CA
           </span>
@@ -79,31 +87,31 @@ export function Nav() {
           data-testid="primary-nav"
         >
           {links.map((link) => {
-            const isToolsLink = link.href === "/tools/";
-            const isActive = isToolsLink
-              ? onTools
-              : !onTools &&
-                (sectionActive === link.href ||
-                  sectionActive === link.href.replace(/^\//, ""));
+            const isActive =
+              link.kind === "tools" ? onTools : !onTools && sectionActive === link.id;
             const className = `relative px-3 py-2 font-mono text-xs tracking-wide transition-colors ${
               isActive ? "text-accent" : "text-muted hover:text-text"
             }`;
 
-            if (link.href.startsWith("#") || link.href.startsWith("/#")) {
+            if (link.kind === "tools") {
               return (
-                <a key={link.href} href={link.href} className={className}>
+                <Link key={link.id} href="/tools/" className={className}>
                   {link.label}
                   <span
                     className={`absolute inset-x-3 -bottom-0.5 h-px bg-accent transition-opacity ${
                       isActive ? "opacity-100" : "opacity-0"
                     }`}
                   />
-                </a>
+                </Link>
               );
             }
 
             return (
-              <Link key={link.href} href={link.href} className={className}>
+              <Link
+                key={link.id}
+                href={sectionHref(`#${link.id}`)}
+                className={className}
+              >
                 {link.label}
                 <span
                   className={`absolute inset-x-3 -bottom-0.5 h-px bg-accent transition-opacity ${
@@ -114,12 +122,12 @@ export function Nav() {
             );
           })}
           {site.openToWork ? (
-            <a
-              href={onTools ? "/#contact" : "#contact"}
+            <Link
+              href={sectionHref("#contact")}
               className="ml-2 border border-accent/35 bg-accent-soft px-3 py-1.5 font-mono text-[0.7rem] uppercase tracking-wider text-accent transition-colors hover:border-accent"
             >
               Open to work
-            </a>
+            </Link>
           ) : null}
         </nav>
 
@@ -142,24 +150,16 @@ export function Nav() {
         >
           <ul className="flex flex-col gap-1">
             {links.map((link) => (
-              <li key={link.href}>
-                {link.href.startsWith("#") || link.href.startsWith("/#") ? (
-                  <a
-                    href={link.href}
-                    className="block px-1 py-2.5 font-mono text-sm text-muted hover:text-accent"
-                    onClick={() => setOpen(false)}
-                  >
-                    {link.label}
-                  </a>
-                ) : (
-                  <Link
-                    href={link.href}
-                    className="block px-1 py-2.5 font-mono text-sm text-muted hover:text-accent"
-                    onClick={() => setOpen(false)}
-                  >
-                    {link.label}
-                  </Link>
-                )}
+              <li key={link.id}>
+                <Link
+                  href={
+                    link.kind === "tools" ? "/tools/" : sectionHref(`#${link.id}`)
+                  }
+                  className="block px-1 py-2.5 font-mono text-sm text-muted hover:text-accent"
+                  onClick={() => setOpen(false)}
+                >
+                  {link.label}
+                </Link>
               </li>
             ))}
           </ul>
