@@ -42,10 +42,10 @@ test.describe("Portfolio - full automated suite", () => {
   }) => {
     const experience = page.getByTestId("section-experience");
     await experience.scrollIntoViewIfNeeded();
-    await expect(experience.getByText("NICE CXone")).toBeVisible();
-    await expect(experience.getByText("Current")).toBeVisible();
+    await expect(experience.getByText("NICE CXone", { exact: true })).toBeVisible();
+    await expect(experience.getByText("Current", { exact: true })).toBeVisible();
     await expect(
-      experience.getByText("Senior QA Engineer / QA Lead"),
+      experience.getByText("Senior QA Engineer / QA Lead", { exact: true }),
     ).toBeVisible();
   });
 
