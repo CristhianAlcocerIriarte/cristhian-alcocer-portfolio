@@ -98,29 +98,29 @@ export const e2eTestCases = [
   },
   {
     key: "PORT-15",
-    summary: "TC-06: Contact details and form controls are valid",
+    summary: "TC-06: Contact details and channels are valid",
     parent: "PORT-3",
     labels: ["e2e", "contact"],
     description:
-      "Mapped to Playwright: contact details and form controls are valid",
+      "Mapped to Playwright: contact details and channels are valid",
     steps: [
       "Scroll to Contact",
-      "Assert mailto and wa.me links",
-      "Assert name, email, message and submit controls",
+      "Assert mailto, WhatsApp, LinkedIn and Maps links are visible",
     ],
-    expected: "Contact channels and form controls are available.",
+    expected: "All contact channels are available.",
   },
   {
     key: "PORT-16",
-    summary: "TC-07: Contact form accepts valid input",
+    summary: "TC-07: Contact channels expose expected destinations",
     parent: "PORT-3",
-    labels: ["e2e", "contact", "form"],
-    description: "Mapped to Playwright: contact form accepts valid input",
+    labels: ["e2e", "contact"],
+    description:
+      "Mapped to Playwright: contact channels expose expected destinations",
     steps: [
-      "Fill contact name, email and message",
-      "Assert input values are retained",
+      "Inspect mailto, wa.me, LinkedIn and Google Maps href values",
+      "Assert destinations match the public contact profile",
     ],
-    expected: "Form fields accept and keep valid input.",
+    expected: "Contact channel destinations are correct.",
   },
   {
     key: "PORT-17",
@@ -191,10 +191,10 @@ export const jiraIssues: JiraIssue[] = [
     parent: "PORT-1",
     labels: ["contact", "a11y"],
     description:
-      "Covers TC-06 to TC-08: contact channels/form controls, form input and skip-link/title accessibility.",
+      "Covers TC-06 to TC-08: contact channels, destination checks and skip-link/title accessibility.",
     acceptanceCriteria: [
-      "Email and WhatsApp links are present",
-      "Contact form accepts valid input",
+      "Email, WhatsApp, LinkedIn and Maps links are present",
+      "Channel destinations match the public profile",
       "Skip link can receive keyboard focus",
     ],
   },

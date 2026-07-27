@@ -201,10 +201,10 @@ export const wcagSections: WcagSectionDef[] = [
       {
         id: "contact-labels",
         principle: "Perceivable",
-        criterion: "1.3.1 / 3.3.2 Labels or Instructions",
+        criterion: "1.3.1 Info and Relationships",
         level: "A",
-        title: "Form fields are associated with labels",
-        how: "Name, email and message inputs have labels",
+        title: "Contact channels have visible labels",
+        how: "Email, WhatsApp, LinkedIn and Location use labeled rows",
       },
       {
         id: "contact-links",

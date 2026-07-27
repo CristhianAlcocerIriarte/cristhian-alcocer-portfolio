@@ -127,8 +127,8 @@ export const liveTestCases: LiveTestCase[] = [
   },
   {
     id: "contact-controls",
-    title: "contact details and form controls are valid",
-    playwrightName: "contact details and form controls are valid",
+    title: "contact details and channels are valid",
+    playwrightName: "contact details and channels are valid",
     file: "e2e/portfolio.spec.ts",
     run: async (root) => {
       const doc = resolveRoot(root);
@@ -144,45 +144,51 @@ export const liveTestCases: LiveTestCase[] = [
         contact.querySelector('a[href^="https://wa.me/"]'),
         "WhatsApp link missing",
       );
-      assert(qs(doc, '[data-testid="contact-name"]'), "Name input missing");
-      assert(qs(doc, '[data-testid="contact-email"]'), "Email input missing");
-      assert(qs(doc, '[data-testid="contact-message"]'), "Message textarea missing");
-      assert(qs(doc, '[data-testid="contact-submit"]'), "Submit button missing");
+      assert(
+        contact.querySelector('a[href*="linkedin.com/in/cristhian-alcocer"]'),
+        "LinkedIn link missing",
+      );
+      assert(
+        contact.querySelector('a[href*="google.com/maps"]'),
+        "Google Maps location link missing",
+      );
     },
   },
   {
-    id: "contact-form-input",
-    title: "contact form accepts valid input",
-    playwrightName: "contact form accepts valid input",
+    id: "contact-channels",
+    title: "contact channels expose expected destinations",
+    playwrightName: "contact channels expose expected destinations",
     file: "e2e/portfolio.spec.ts",
     run: async (root) => {
       const doc = resolveRoot(root);
       await wait(100);
-      const name = qs<HTMLInputElement>(doc, '[data-testid="contact-name"]');
-      const email = qs<HTMLInputElement>(doc, '[data-testid="contact-email"]');
-      const message = qs<HTMLTextAreaElement>(doc, '[data-testid="contact-message"]');
+      const contact = qs(doc, '[data-testid="section-contact"]');
+      contact.scrollIntoView({ behavior: "instant", block: "center" });
+      await wait(120);
 
-      const win = doc.defaultView ?? window;
-      const nativeSetter = Object.getOwnPropertyDescriptor(
-        win.HTMLInputElement.prototype,
-        "value",
-      )?.set;
-      const areaSetter = Object.getOwnPropertyDescriptor(
-        win.HTMLTextAreaElement.prototype,
-        "value",
-      )?.set;
+      const mail = contact.querySelector(
+        'a[href^="mailto:cristhianalcoceririarte@gmail.com"]',
+      ) as HTMLAnchorElement | null;
+      const whatsapp = contact.querySelector(
+        'a[href^="https://wa.me/"]',
+      ) as HTMLAnchorElement | null;
+      const linkedin = contact.querySelector(
+        'a[href*="linkedin.com/in/cristhian-alcocer"]',
+      ) as HTMLAnchorElement | null;
+      const maps = contact.querySelector(
+        'a[href*="google.com/maps"]',
+      ) as HTMLAnchorElement | null;
 
-      nativeSetter?.call(name, "Hiring Manager");
-      name.dispatchEvent(new Event("input", { bubbles: true }));
-      nativeSetter?.call(email, "hiring@example.com");
-      email.dispatchEvent(new Event("input", { bubbles: true }));
-      areaSetter?.call(message, "Interested in a QA Lead conversation.");
-      message.dispatchEvent(new Event("input", { bubbles: true }));
-
-      await wait(80);
-      assert(name.value === "Hiring Manager", "Name value was not set");
-      assert(email.value === "hiring@example.com", "Email value was not set");
-      assert(message.value.includes("QA Lead"), "Message value was not set");
+      assert(mail?.href.includes("mailto:"), "Email destination invalid");
+      assert(whatsapp?.href.includes("wa.me/59179969931"), "WhatsApp destination invalid");
+      assert(
+        linkedin?.href.includes("linkedin.com/in/cristhian-alcocer"),
+        "LinkedIn destination invalid",
+      );
+      assert(
+        maps?.href.includes("Plaza+14+de+Septiembre"),
+        "Maps destination invalid",
+      );
     },
   },
   {

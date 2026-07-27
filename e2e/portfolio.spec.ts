@@ -58,7 +58,7 @@ test.describe("Portfolio - full automated suite", () => {
     await expect(expertise.getByText("Postman", { exact: true })).toBeVisible();
   });
 
-  test("contact details and form controls are valid", async ({ page }) => {
+  test("contact details and channels are valid", async ({ page }) => {
     const contact = page.getByTestId("section-contact");
     await contact.scrollIntoViewIfNeeded();
 
@@ -66,24 +66,31 @@ test.describe("Portfolio - full automated suite", () => {
       contact.locator('a[href^="mailto:cristhianalcoceririarte@gmail.com"]'),
     ).toBeVisible();
     await expect(contact.locator('a[href^="https://wa.me/"]')).toBeVisible();
-
-    await expect(page.getByTestId("contact-name")).toBeVisible();
-    await expect(page.getByTestId("contact-email")).toBeVisible();
-    await expect(page.getByTestId("contact-message")).toBeVisible();
-    await expect(page.getByTestId("contact-submit")).toBeVisible();
+    await expect(
+      contact.locator('a[href*="linkedin.com/in/cristhian-alcocer"]'),
+    ).toBeVisible();
+    await expect(
+      contact.locator('a[href*="google.com/maps"]'),
+    ).toBeVisible();
   });
 
-  test("contact form accepts valid input", async ({ page }) => {
-    await page.getByTestId("section-contact").scrollIntoViewIfNeeded();
-    await page.getByTestId("contact-name").fill("Hiring Manager");
-    await page.getByTestId("contact-email").fill("hiring@example.com");
-    await page
-      .getByTestId("contact-message")
-      .fill("Interested in a QA Lead conversation.");
+  test("contact channels expose expected destinations", async ({ page }) => {
+    const contact = page.getByTestId("section-contact");
+    await contact.scrollIntoViewIfNeeded();
 
-    await expect(page.getByTestId("contact-name")).toHaveValue("Hiring Manager");
-    await expect(page.getByTestId("contact-email")).toHaveValue(
-      "hiring@example.com",
+    await expect(
+      contact.locator('a[href^="mailto:cristhianalcoceririarte@gmail.com"]'),
+    ).toHaveAttribute("href", /mailto:cristhianalcoceririarte@gmail\.com/);
+    await expect(contact.locator('a[href^="https://wa.me/"]')).toHaveAttribute(
+      "href",
+      /wa\.me\/59179969931/,
+    );
+    await expect(
+      contact.locator('a[href*="linkedin.com/in/cristhian-alcocer"]'),
+    ).toHaveAttribute("href", /linkedin\.com\/in\/cristhian-alcocer/);
+    await expect(contact.locator('a[href*="google.com/maps"]')).toHaveAttribute(
+      "href",
+      /Plaza\+14\+de\+Septiembre/,
     );
   });
 

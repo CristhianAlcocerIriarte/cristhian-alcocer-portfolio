@@ -163,18 +163,18 @@ function runSectionChecks(doc: Document): CheckResult[] {
           break;
         }
         case "contact-labels": {
-          const fields = ["contact-name", "contact-email", "contact-message"];
-          const unlabeled = fields.filter((id) => {
-            const el = query(doc, `[data-testid="${id}"]`);
-            if (!el) return true;
-            const label = el.closest("label");
-            return !label;
-          });
-          status = unlabeled.length === 0 ? "pass" : "fail";
+          const labels = ["Email", "WhatsApp", "LinkedIn", "Location"];
+          const missing = labels.filter(
+            (label) =>
+              !Array.from(queryAll(doc, "dt")).some((dt) =>
+                (dt.textContent ?? "").includes(label),
+              ),
+          );
+          status = missing.length === 0 ? "pass" : "fail";
           detail =
-            unlabeled.length === 0
-              ? "All contact fields wrapped in labels"
-              : `Unlabeled/missing: ${unlabeled.join(", ")}`;
+            missing.length === 0
+              ? "Contact channel labels present"
+              : `Missing labels: ${missing.join(", ")}`;
           break;
         }
         case "contact-links": {
