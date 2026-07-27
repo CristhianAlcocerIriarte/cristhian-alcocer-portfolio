@@ -10,7 +10,7 @@ export const site = {
     "7 years driving quality across workflow automation, database connectors and cloud-native products — from full-stack validation with Postman & SQL to Agile facilitation and AI-powered test design with Playwright.",
   email: "cristhianalcoceririarte@gmail.com",
   phone: "+591 799 699 31",
-  phoneHref: "tel:+59179969931",
+  phoneHref: "https://wa.me/59179969931",
   linkedin: "https://www.linkedin.com/in/cristhian-alcocer-iriarte",
   openToWork: true,
   availability: "Open to QA leadership roles, consulting and quality engineering collaborations.",

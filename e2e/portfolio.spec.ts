@@ -64,7 +64,7 @@ test.describe("Portfolio — full automated suite", () => {
     await expect(
       contact.locator('a[href^="mailto:cristhianalcoceririarte@gmail.com"]'),
     ).toBeVisible();
-    await expect(contact.locator('a[href^="tel:"]')).toBeVisible();
+    await expect(contact.locator('a[href^="https://wa.me/"]')).toBeVisible();
 
     await expect(page.getByTestId("contact-name")).toBeVisible();
     await expect(page.getByTestId("contact-email")).toBeVisible();

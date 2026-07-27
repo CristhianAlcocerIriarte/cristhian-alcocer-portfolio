@@ -120,7 +120,10 @@ export const liveTestCases: LiveTestCase[] = [
         contact.querySelector('a[href^="mailto:cristhianalcoceririarte@gmail.com"]'),
         "Email mailto link missing",
       );
-      assert(contact.querySelector('a[href^="tel:"]'), "Phone tel link missing");
+      assert(
+        contact.querySelector('a[href^="https://wa.me/"]'),
+        "WhatsApp link missing",
+      );
       assert(qs('[data-testid="contact-name"]'), "Name input missing");
       assert(qs('[data-testid="contact-email"]'), "Email input missing");
       assert(qs('[data-testid="contact-message"]'), "Message textarea missing");

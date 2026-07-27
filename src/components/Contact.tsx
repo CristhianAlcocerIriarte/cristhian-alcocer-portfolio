@@ -58,6 +58,8 @@ export function Contact() {
                 <li>
                   <a
                     href={site.phoneHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="text-text transition-colors hover:text-accent"
                   >
                     {site.phone}
