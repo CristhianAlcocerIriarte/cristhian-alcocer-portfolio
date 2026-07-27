@@ -44,7 +44,7 @@ test.describe("Portfolio — full automated suite", () => {
     await expect(experience.getByText("NICE CXone")).toBeVisible();
     await expect(experience.getByText("Current")).toBeVisible();
     await expect(
-      experience.getByText("Senior Manual QA Engineer / QA Lead"),
+      experience.getByText("Senior QA Engineer / QA Lead"),
     ).toBeVisible();
   });
 

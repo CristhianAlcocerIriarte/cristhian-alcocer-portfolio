@@ -1,4 +1,4 @@
-import { about } from "@/lib/content";
+import { about, site } from "@/lib/content";
 import { Reveal } from "@/components/motion/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
@@ -10,26 +10,35 @@ export function About() {
           <SectionHeading eyebrow={about.eyebrow} title={about.title} />
         </Reveal>
 
+        <Reveal delay={0.05}>
+          <blockquote className="mb-10 max-w-3xl border-l border-accent/50 pl-5 font-display text-xl leading-snug tracking-tight text-text sm:text-2xl">
+            “{about.quote}”
+          </blockquote>
+        </Reveal>
+
         <div className="grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
           <Reveal delay={0.08}>
             <div className="space-y-5 text-base leading-relaxed text-muted sm:text-lg">
-              {about.paragraphs.map((paragraph, index) => (
-                <p
-                  key={paragraph.slice(0, 28)}
-                  className={index === 0 ? "text-text/90" : undefined}
-                >
-                  {index === 0 ? (
-                    <>
-                      <strong className="font-medium text-text">
-                        Cristhian Alcocer Iriarte
-                      </strong>{" "}
-                      {paragraph}
-                    </>
-                  ) : (
-                    paragraph
-                  )}
-                </p>
+              <p className="text-text/90">
+                <strong className="font-medium text-text">{site.fullName}</strong>
+                {" — "}
+                {site.headline}
+              </p>
+              {about.paragraphs.map((paragraph) => (
+                <p key={paragraph.slice(0, 32)}>{paragraph}</p>
               ))}
+              {about.recommendation ? (
+                <figure className="mt-8 border border-line bg-surface/50 p-5 sm:p-6">
+                  <blockquote className="text-sm leading-relaxed text-text/85 sm:text-base">
+                    “{about.recommendation.quote}”
+                  </blockquote>
+                  <figcaption className="mt-3 font-mono text-xs text-muted">
+                    <span className="text-accent">{about.recommendation.author}</span>
+                    {" · "}
+                    {about.recommendation.role}
+                  </figcaption>
+                </figure>
+              ) : null}
             </div>
           </Reveal>
 

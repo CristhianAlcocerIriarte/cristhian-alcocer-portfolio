@@ -14,7 +14,7 @@ export function Education() {
           />
         </Reveal>
 
-        <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+        <div className="grid gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
           <Reveal delay={0.08}>
             <div className="border border-line bg-surface/60 p-6 sm:p-8">
               <p className="font-mono text-xs uppercase tracking-[0.14em] text-accent">
@@ -23,24 +23,57 @@ export function Education() {
               <h3 className="mt-4 font-display text-2xl tracking-tight text-text">
                 {education.degree.title}
               </h3>
+              <p className="mt-2 text-sm text-muted">{education.degree.field}</p>
               <p className="mt-2 text-muted">{education.degree.institution}</p>
               <p className="mt-4 font-mono text-xs text-muted">
                 {education.degree.period}
               </p>
+              <ul className="mt-6 space-y-3">
+                {education.degree.focus.map((item) => (
+                  <li
+                    key={item}
+                    className="text-sm leading-relaxed text-muted"
+                  >
+                    <span className="mr-2 font-mono text-accent">›</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
             </div>
           </Reveal>
 
           <Reveal delay={0.14}>
-            <div>
-              <h3 className="font-mono text-xs uppercase tracking-[0.14em] text-accent">
-                Skills & competencies
-              </h3>
-              <div className="mt-5 flex flex-wrap gap-2">
-                {education.skills.map((skill) => (
-                  <span key={skill} className="skill-chip">
-                    {skill}
-                  </span>
-                ))}
+            <div className="space-y-10">
+              <div>
+                <h3 className="font-mono text-xs uppercase tracking-[0.14em] text-accent">
+                  Skills & competencies
+                </h3>
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {education.skills.map((skill) => (
+                    <span key={skill} className="skill-chip">
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <h3 className="font-mono text-xs uppercase tracking-[0.14em] text-accent">
+                  Languages
+                </h3>
+                <ul className="mt-4 space-y-2">
+                  {education.languages.map((language) => (
+                    <li
+                      key={language.name}
+                      className="flex flex-wrap items-baseline gap-x-3 gap-y-1 text-sm text-muted"
+                    >
+                      <span className="font-medium text-text">
+                        {language.name}
+                      </span>
+                      <span className="font-mono text-xs">{language.level}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           </Reveal>

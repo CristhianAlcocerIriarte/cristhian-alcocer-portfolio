@@ -42,6 +42,11 @@ export function Experience() {
                   <p className="mt-2 font-mono text-sm text-accent">
                     {role.company}
                   </p>
+                  {role.employment ? (
+                    <p className="mt-1 font-mono text-[0.65rem] text-muted/80">
+                      {role.employment}
+                    </p>
+                  ) : null}
                   {role.current ? (
                     <span className="mt-3 inline-block border border-accent/30 bg-accent-soft px-2 py-1 font-mono text-[0.65rem] uppercase tracking-wider text-accent">
                       Current

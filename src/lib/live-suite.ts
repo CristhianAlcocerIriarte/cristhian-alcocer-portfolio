@@ -88,7 +88,7 @@ export const liveTestCases: LiveTestCase[] = [
       assert(experience.textContent?.includes("NICE CXone"), "NICE CXone not found");
       assert(experience.textContent?.includes("Current"), "Current badge missing");
       assert(
-        experience.textContent?.includes("Senior Manual QA Engineer / QA Lead"),
+        experience.textContent?.includes("Senior QA Engineer / QA Lead"),
         "Current role title missing",
       );
     },
