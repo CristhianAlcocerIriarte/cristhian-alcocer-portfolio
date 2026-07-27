@@ -188,13 +188,32 @@ function compare(left: string | number | boolean | null, op: string, rightRaw: s
       return bothNumeric ? leftNum >= rightNum : String(left) >= right;
     case "<=":
       return bothNumeric ? leftNum <= rightNum : String(left) <= right;
-    case "LIKE": {
-      const pattern = `^${right.replace(/%/g, ".*").replace(/_/g, ".")}$`;
-      return new RegExp(pattern, "i").test(String(left ?? ""));
-    }
+    case "LIKE":
+      return likeMatches(String(left ?? ""), right);
     default:
       return false;
   }
+}
+
+/** Convert SQL LIKE to a safe RegExp (escape metacharacters; %/_ are wildcards). */
+function likeMatches(value: string, pattern: string) {
+  let source = "";
+  for (const char of pattern) {
+    if (char === "%") {
+      source += ".*";
+      continue;
+    }
+    if (char === "_") {
+      source += ".";
+      continue;
+    }
+    if (/[.*+?^${}()|[\]\\]/.test(char)) {
+      source += `\\${char}`;
+      continue;
+    }
+    source += char;
+  }
+  return new RegExp(`^${source}$`, "i").test(value);
 }
 
 function applyWhere(rows: SqlRow[], whereClause?: string) {

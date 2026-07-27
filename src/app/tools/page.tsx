@@ -6,7 +6,7 @@ import { ToolsShell } from "@/components/tools/ToolsShell";
 export const metadata: Metadata = {
   title: "Tools Lab · Cristhian Alcocer",
   description:
-    "Interactive Postman, JMeter, Jira, Confluence and SQL simulations powered by portfolio data.",
+    "Interactive Postman, Playwright, JMeter, Jira, Confluence and SQL simulations powered by portfolio data.",
 };
 
 export default function ToolsPage() {

@@ -1,6 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import { DM_Sans, Instrument_Serif, JetBrains_Mono } from "next/font/google";
 import { site } from "@/lib/content";
+import {
+  CONTENT_SECURITY_POLICY,
+  REFERRER_POLICY,
+} from "@/lib/security";
 import "./globals.css";
 
 const body = DM_Sans({
@@ -21,6 +25,8 @@ const mono = JetBrains_Mono({
   weight: ["400", "500", "600"],
 });
 
+const isProd = process.env.NODE_ENV === "production";
+
 export const metadata: Metadata = {
   title: `${site.name} · ${site.role}`,
   description: site.intro,
@@ -38,6 +44,7 @@ export const metadata: Metadata = {
     title: `${site.name} · ${site.role}`,
     description: site.intro,
   },
+  referrer: REFERRER_POLICY,
 };
 
 export const viewport: Viewport = {
@@ -55,6 +62,14 @@ export default function RootLayout({
       lang="en"
       className={`${body.variable} ${display.variable} ${mono.variable} h-full scroll-smooth antialiased`}
     >
+      <head>
+        {isProd ? (
+          <meta
+            httpEquiv="Content-Security-Policy"
+            content={CONTENT_SECURITY_POLICY}
+          />
+        ) : null}
+      </head>
       <body className="site-bg min-h-full font-sans text-text">
         <a
           href="#main"

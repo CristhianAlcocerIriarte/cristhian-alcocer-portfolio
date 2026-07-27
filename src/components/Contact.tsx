@@ -5,6 +5,33 @@ import { contact, site } from "@/lib/content";
 import { Reveal } from "@/components/motion/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
+const channels = [
+  {
+    label: "Email",
+    value: site.email,
+    href: `mailto:${site.email}`,
+    external: false,
+  },
+  {
+    label: "WhatsApp",
+    value: site.phone,
+    href: site.phoneHref,
+    external: true,
+  },
+  {
+    label: "Location",
+    value: site.location,
+    href: null,
+    external: false,
+  },
+  {
+    label: "LinkedIn",
+    value: "View profile",
+    href: site.linkedin,
+    external: true,
+  },
+] as const;
+
 export function Contact() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -36,47 +63,50 @@ export function Contact() {
           />
         </Reveal>
 
-        <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-12">
+        <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-14">
           <Reveal delay={0.08}>
             <div>
-              <h3 className="font-mono text-xs uppercase tracking-[0.14em] text-accent">
-                Contact information
-              </h3>
-              <p className="mt-4 max-w-md text-sm leading-relaxed text-muted sm:text-base">
-                {site.availability}
-              </p>
+              <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-line pb-4">
+                <span className="font-mono text-xs uppercase tracking-[0.14em] text-accent">
+                  Open to work
+                </span>
+                <p className="text-sm text-muted sm:text-base">
+                  QA leadership and Quality Control Engineer roles.
+                </p>
+              </div>
 
-              <ul className="mt-8 space-y-3 font-mono text-sm">
-                <li>
-                  <a
-                    href={`mailto:${site.email}`}
-                    className="contact-link"
+              <dl className="mt-2">
+                {channels.map((channel) => (
+                  <div
+                    key={channel.label}
+                    className="grid grid-cols-[6.5rem_1fr] items-center gap-3 border-b border-line py-3.5 sm:grid-cols-[7.5rem_1fr]"
                   >
-                    {site.email}
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href={site.phoneHref}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="contact-link"
-                  >
-                    {site.phone}
-                  </a>
-                </li>
-                <li className="px-3 py-2 text-muted">{site.location}</li>
-                <li>
-                  <a
-                    href={site.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="contact-link"
-                  >
-                    LinkedIn profile →
-                  </a>
-                </li>
-              </ul>
+                    <dt className="font-mono text-[0.7rem] uppercase tracking-[0.12em] text-muted">
+                      {channel.label}
+                    </dt>
+                    <dd className="min-w-0">
+                      {channel.href ? (
+                        <a
+                          href={channel.href}
+                          className="contact-link"
+                          {...(channel.external
+                            ? {
+                                target: "_blank",
+                                rel: "noopener noreferrer",
+                              }
+                            : {})}
+                        >
+                          {channel.value}
+                        </a>
+                      ) : (
+                        <span className="font-mono text-sm text-text/85">
+                          {channel.value}
+                        </span>
+                      )}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
             </div>
           </Reveal>
 
@@ -85,6 +115,15 @@ export function Contact() {
               onSubmit={onSubmit}
               className="border border-line bg-surface/50 p-6 sm:p-8"
             >
+              <div className="mb-6 border-b border-line pb-4">
+                <h3 className="font-mono text-xs uppercase tracking-[0.14em] text-accent">
+                  Send a message
+                </h3>
+                <p className="mt-2 text-sm text-muted">
+                  Opens your email client with the inquiry ready to send.
+                </p>
+              </div>
+
               <div className="grid gap-5">
                 <label className="block">
                   <span className="mb-2 block font-mono text-xs uppercase tracking-wider text-muted">

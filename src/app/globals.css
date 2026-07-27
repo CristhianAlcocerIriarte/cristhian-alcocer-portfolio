@@ -303,13 +303,15 @@ a {
 .contact-link {
   display: inline-flex;
   align-items: center;
-  width: fit-content;
   max-width: 100%;
-  padding: 0.45rem 0.7rem;
-  margin-inline: -0.7rem;
+  padding: 0.2rem 0.45rem;
+  margin-inline: -0.45rem;
   border: 1px solid transparent;
   border-radius: 2px;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.875rem;
   color: var(--text);
+  word-break: break-word;
   transition:
     color 0.25s ease,
     background 0.25s ease,

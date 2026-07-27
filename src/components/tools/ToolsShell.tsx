@@ -6,6 +6,7 @@ import { FiddlerSim } from "@/components/tools/FiddlerSim";
 import { JiraSim } from "@/components/tools/JiraSim";
 import { JMeterSim } from "@/components/tools/JMeterSim";
 import { KafkaSim } from "@/components/tools/KafkaSim";
+import { PlaywrightSim } from "@/components/tools/PlaywrightSim";
 import { PostmanSim } from "@/components/tools/PostmanSim";
 import { SqlSim } from "@/components/tools/SqlSim";
 import { WcagSim } from "@/components/tools/WcagSim";
@@ -15,6 +16,7 @@ const tabs = [
   { id: "jira", label: "Jira", blurb: "Epic, stories, tests and executions" },
   { id: "sql", label: "SQL", blurb: "In-memory portfolio database" },
   { id: "postman", label: "Postman", blurb: "API collection for this portfolio" },
+  { id: "playwright", label: "Playwright", blurb: "Run E2E tests live, one or all" },
   { id: "jmeter", label: "JMeter", blurb: "Load test against portfolio APIs" },
   { id: "fiddler", label: "Fiddler", blurb: "HTTP(S) traffic inspection" },
   { id: "wcag", label: "WCAG", blurb: "Accessibility audit by section" },
@@ -36,9 +38,9 @@ export function ToolsShell() {
           QA tooling simulations
         </h1>
         <p className="mt-3 text-base leading-relaxed text-muted sm:text-lg">
-          Interactive demos of Confluence, Jira, SQL, Postman, JMeter, Fiddler, WCAG and
-          Kafka - seeded with real portfolio data so you can explore how I work with
-          everyday QA and delivery tools.
+          Interactive demos of Confluence, Jira, SQL, Postman, Playwright, JMeter,
+          Fiddler, WCAG and Kafka - seeded with real portfolio data so you can explore
+          how I work with everyday QA and delivery tools.
         </p>
       </div>
 
@@ -63,6 +65,7 @@ export function ToolsShell() {
       </div>
 
       {active === "postman" ? <PostmanSim /> : null}
+      {active === "playwright" ? <PlaywrightSim /> : null}
       {active === "jmeter" ? <JMeterSim /> : null}
       {active === "jira" ? <JiraSim /> : null}
       {active === "confluence" ? <ConfluenceSim /> : null}
