@@ -13,7 +13,7 @@ export const site = {
   email: "cristhianalcoceririarte@gmail.com",
   phone: "+591 799 699 31",
   phoneHref: "https://wa.me/59179969931",
-  linkedin: "https://www.linkedin.com/in/cristhian-alcocer-iriarte",
+  linkedin: "https://www.linkedin.com/in/cristhian-alcocer/",
   openToWork: true,
   availability:
     "Open to Quality Control Engineer and QA leadership roles, ready to elevate product quality standards and lead high-performing QA workflows.",
