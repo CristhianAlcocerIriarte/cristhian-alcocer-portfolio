@@ -182,7 +182,7 @@ export function TestRunner() {
                       Live automated validation
                     </p>
                     <p className="mt-1 text-sm text-muted">
-                      Executes real assertions against this page — same coverage as
+                      Executes real assertions against this page - same coverage as
                       the Playwright e2e suite.
                     </p>
                   </div>
@@ -275,7 +275,7 @@ export function TestRunner() {
                             ? `${row.durationMs}ms`
                             : row.status === "running"
                               ? "…"
-                              : "—"}
+                              : "-"}
                         </span>
                       </div>
                     </div>

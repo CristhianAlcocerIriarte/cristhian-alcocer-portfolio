@@ -23,7 +23,7 @@ export function Expertise() {
             <Reveal
               key={area.id}
               delay={0.06 * index}
-              className={`group border-t border-line py-8 md:px-6 md:py-10 ${
+              className={`group border-t border-line py-5 md:px-6 md:py-6 ${
                 index % 2 === 0 ? "md:border-r" : ""
               } ${index < 2 ? "md:border-b-0" : ""}`}
             >

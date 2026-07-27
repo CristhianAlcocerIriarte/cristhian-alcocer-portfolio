@@ -53,7 +53,7 @@ export const liveTestCases: LiveTestCase[] = [
     file: "e2e/portfolio.spec.ts",
     run: async () => {
       await wait(100);
-      const labels = ["About", "Expertise", "Experience", "Education", "Contact"];
+      const labels = ["About", "Expertise", "Experience", "Education", "Contact", "Tools"];
       const nav = qs('[data-testid="primary-nav"]');
       for (const label of labels) {
         assert(

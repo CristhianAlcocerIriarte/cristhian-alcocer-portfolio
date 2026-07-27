@@ -36,7 +36,7 @@ export function Contact() {
           />
         </Reveal>
 
-        <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+        <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-12">
           <Reveal delay={0.08}>
             <div>
               <h3 className="font-mono text-xs uppercase tracking-[0.14em] text-accent">
@@ -46,11 +46,11 @@ export function Contact() {
                 {site.availability}
               </p>
 
-              <ul className="mt-8 space-y-4 font-mono text-sm">
+              <ul className="mt-8 space-y-3 font-mono text-sm">
                 <li>
                   <a
                     href={`mailto:${site.email}`}
-                    className="text-text transition-colors hover:text-accent"
+                    className="contact-link"
                   >
                     {site.email}
                   </a>
@@ -60,18 +60,18 @@ export function Contact() {
                     href={site.phoneHref}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-text transition-colors hover:text-accent"
+                    className="contact-link"
                   >
                     {site.phone}
                   </a>
                 </li>
-                <li className="text-muted">{site.location}</li>
+                <li className="px-3 py-2 text-muted">{site.location}</li>
                 <li>
                   <a
                     href={site.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-accent transition-colors hover:text-[#f7c54d]"
+                    className="contact-link"
                   >
                     LinkedIn profile →
                   </a>

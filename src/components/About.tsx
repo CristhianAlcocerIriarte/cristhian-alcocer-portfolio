@@ -11,17 +11,17 @@ export function About() {
         </Reveal>
 
         <Reveal delay={0.05}>
-          <blockquote className="mb-10 max-w-3xl border-l border-accent/50 pl-5 font-display text-xl leading-snug tracking-tight text-text sm:text-2xl">
+          <blockquote className="mb-6 max-w-3xl border-l border-accent/50 pl-5 font-display text-xl leading-snug tracking-tight text-text sm:text-2xl">
             “{about.quote}”
           </blockquote>
         </Reveal>
 
-        <div className="grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
+        <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-12">
           <Reveal delay={0.08}>
             <div className="space-y-5 text-base leading-relaxed text-muted sm:text-lg">
               <p className="text-text/90">
                 <strong className="font-medium text-text">{site.fullName}</strong>
-                {" — "}
+                {" - "}
                 {site.headline}
               </p>
               {about.paragraphs.map((paragraph) => (

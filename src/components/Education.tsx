@@ -14,7 +14,7 @@ export function Education() {
           />
         </Reveal>
 
-        <div className="grid gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
+        <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:gap-12">
           <Reveal delay={0.08}>
             <div className="border border-line bg-surface/60 p-6 sm:p-8">
               <p className="font-mono text-xs uppercase tracking-[0.14em] text-accent">

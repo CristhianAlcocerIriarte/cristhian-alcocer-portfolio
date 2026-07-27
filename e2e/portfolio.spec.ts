@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-test.describe("Portfolio — full automated suite", () => {
+test.describe("Portfolio - full automated suite", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("./");
   });
@@ -22,6 +22,7 @@ test.describe("Portfolio — full automated suite", () => {
     await expect(nav.getByRole("link", { name: "Experience" })).toBeVisible();
     await expect(nav.getByRole("link", { name: "Education" })).toBeVisible();
     await expect(nav.getByRole("link", { name: "Contact" })).toBeVisible();
+    await expect(nav.getByRole("link", { name: "Tools" })).toBeVisible();
   });
 
   test("core sections are present and reachable", async ({ page }) => {

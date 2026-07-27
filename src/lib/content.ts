@@ -7,16 +7,16 @@ export const site = {
   location: "Cochabamba, Bolivia",
   tagline: "Quality that ships without surprises.",
   summary:
-    "QA Lead · Senior Manual QA Engineer — Agile leadership & AI-powered testing",
+    "QA Lead · Senior Manual QA Engineer - Agile leadership & AI-powered testing",
   intro:
-    "I don’t just find bugs; I build trust through technical excellence and innovation — protecting product integrity across cloud-native platforms with Shift-Left strategy, full-stack validation and AI-enhanced QA workflows.",
+    "I don’t just find bugs; I build trust through technical excellence and innovation, protecting product integrity across cloud-native platforms with Shift-Left strategy, full-stack validation and AI-enhanced QA workflows.",
   email: "cristhianalcoceririarte@gmail.com",
   phone: "+591 799 699 31",
   phoneHref: "https://wa.me/59179969931",
   linkedin: "https://www.linkedin.com/in/cristhian-alcocer-iriarte",
   openToWork: true,
   availability:
-    "Open to Quality Control Engineer and QA leadership roles — ready to elevate product quality standards and lead high-performing QA workflows.",
+    "Open to Quality Control Engineer and QA leadership roles, ready to elevate product quality standards and lead high-performing QA workflows.",
 };
 
 export const navLinks = [
@@ -47,7 +47,7 @@ export const about = {
     "I don’t just find bugs; I build trust through technical excellence and innovation.",
   paragraphs: [
     "For me, Quality Assurance is not just a development phase, but a critical business driver. I specialize in protecting product integrity and optimizing the end-user experience by implementing rigorous, risk-based testing strategies across complex software ecosystems.",
-    "Throughout my career, I have mastered bridging Frontend usability and Backend stability — leading quality initiatives in Agile (Scrum/Kanban) environments so every release is synonymous with reliability and technical excellence.",
+    "Throughout my career, I have mastered bridging Frontend usability and Backend stability, leading quality initiatives in Agile (Scrum/Kanban) environments so every release is synonymous with reliability and technical excellence.",
     "I am a strong advocate for Shift-Left testing, collaborating closely with Developers and Product Managers to catch defects early and streamline delivery. I thrive in high-growth environments where quality, leadership and process optimization are top priorities.",
   ],
   philosophyTitle: "Strategic focus",
@@ -62,7 +62,7 @@ export const about = {
     quote:
       "Cristhian provides the exact kind of agile leadership and technical rigor that high-performing teams need.",
     author: "Britt Hawley",
-    role: "Engineering Director — managed Cristhian directly at NICE",
+    role: "Engineering Director, managed Cristhian directly at NICE",
   },
 };
 
@@ -83,7 +83,7 @@ export const expertise = {
       id: "fullstack",
       title: "Backend & API mastery",
       description:
-        "Deep expertise in API validation with Postman and complex data integrity checks via SQL Server — ensuring seamless communication and synchronization between microservices.",
+        "Deep expertise in API validation with Postman and complex data integrity checks via SQL Server, ensuring seamless communication and synchronization between microservices.",
       tags: ["Postman", "SQL Server", "Microservices"],
     },
     {
@@ -112,7 +112,7 @@ export const experience = {
     {
       title: "Senior QA Engineer / QA Lead",
       company: "NICE CXone",
-      period: "Mar 2019 — Present",
+      period: "Mar 2019 - Present",
       employment: "Full-time · Cochabamba, Bolivia",
       current: true,
       summary:
@@ -120,7 +120,7 @@ export const experience = {
       highlights: [
         {
           label: "AI-driven efficiency",
-          text: "Integrated Claude into daily workflow to accelerate RCA, refine technical documentation and assist in generating complex SQL validation scripts — shortening the developer-to-QA feedback loop.",
+          text: "Integrated Claude into daily workflow to accelerate RCA, refine technical documentation and assist in generating complex SQL validation scripts, shortening the developer-to-QA feedback loop.",
         },
         {
           label: "QA leadership & Scrum",
@@ -151,7 +151,7 @@ export const experience = {
     {
       title: "Information Technology System Manager",
       company: "Farmacia Chavez",
-      period: "Sep 2016 — Feb 2019",
+      period: "Sep 2016 - Feb 2019",
       employment: "Full-time · Bolivia",
       current: false,
       summary:
@@ -174,7 +174,7 @@ export const experience = {
     {
       title: "Information Technology Technical Specialist",
       company: "Bata Group",
-      period: "Aug 2014 — Aug 2016",
+      period: "Aug 2014 - Aug 2016",
       employment: "Full-time · Bolivia",
       current: false,
       summary:
@@ -197,11 +197,11 @@ export const experience = {
     {
       title: "Information Technology System Manager",
       company: "Plasticos Derqui",
-      period: "Jul 2012 — Jul 2014",
+      period: "Jul 2012 - Jul 2014",
       employment: "Full-time · Bolivia",
       current: false,
       summary:
-        "Strategically directed planning, deployment and security of organizational IT infrastructure — ensuring high-availability systems and aligning technology roadmaps with business growth.",
+        "Strategically directed planning, deployment and security of organizational IT infrastructure, ensuring high-availability systems and aligning technology roadmaps with business growth.",
       highlights: [
         {
           label: "Operations governance",
@@ -228,10 +228,10 @@ export const education = {
   degree: {
     title: "System Analyst",
     field: "Computer and Information Sciences and Support Services",
-    institution: "CATEC — Cochabamba, Bolivia",
-    period: "Nov 2004 — Nov 2009",
+    institution: "CATEC, Cochabamba, Bolivia",
+    period: "Nov 2004 - Nov 2009",
     focus: [
-      "Systems engineering & SDLC — turning business requirements into efficient software solutions",
+      "Systems engineering & SDLC: turning business requirements into efficient software solutions",
       "Software construction with OOP and algorithmic logic (Java/Python)",
       "Relational databases (SQL): integrity, normalization and complex data flows",
       "Requirements engineering, Agile project management and systems auditing / RCA",

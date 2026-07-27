@@ -25,25 +25,11 @@ export function Hero() {
     <section
       id="top"
       data-testid="hero"
-      className="relative overflow-hidden pt-28 pb-16 sm:pt-32 sm:pb-20 lg:min-h-[100svh] lg:pb-24"
+      className="relative overflow-hidden pt-24 pb-10 sm:pt-28 sm:pb-12 lg:pb-14"
     >
       <div className="container-narrow section-pad !py-0">
         <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-14">
           <div>
-            <motion.p
-              className="eyebrow mb-6"
-              {...fade(0.05)}
-            >
-              QA Lead · {site.location}
-            </motion.p>
-
-            <motion.p
-              className="mb-3 font-display text-2xl tracking-tight text-text/90 sm:text-3xl"
-              {...fade(0.12)}
-            >
-              {site.name}
-            </motion.p>
-
             <motion.h1
               className="font-display text-[clamp(2.4rem,6vw,4.25rem)] leading-[1.05] tracking-tight text-text"
               {...fade(0.2)}

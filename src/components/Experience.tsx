@@ -22,7 +22,7 @@ export function Experience() {
           {experience.roles.map((role, index) => (
             <Reveal key={`${role.company}-${role.period}`} delay={0.08 * index} as="li">
               <article
-                className={`relative grid gap-6 border-l border-line py-8 pl-6 sm:pl-8 md:grid-cols-[220px_1fr] md:gap-10 ${
+                className={`relative grid gap-5 border-l border-line py-6 pl-6 sm:pl-8 md:grid-cols-[220px_1fr] md:gap-8 ${
                   index === experience.roles.length - 1 ? "pb-0" : ""
                 }`}
               >
