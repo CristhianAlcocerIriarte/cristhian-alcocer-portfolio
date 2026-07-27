@@ -1,19 +1,19 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #07090c;
-  --surface: #0d1218;
-  --surface-elevated: #121a24;
-  --line: #1a2330;
-  --line-strong: #243044;
-  --text: #e8eef6;
-  --muted: #8b9bb0;
-  --accent: #3dd6c6;
-  --accent-dim: #1a4a45;
-  --accent-soft: rgba(61, 214, 198, 0.12);
-  --pass: #4ade80;
-  --warn: #fbbf24;
-  --glow: rgba(61, 214, 198, 0.08);
+  --bg: #090b10;
+  --surface: #10141c;
+  --surface-elevated: #161c28;
+  --line: #222a38;
+  --line-strong: #2f3a4d;
+  --text: #f2f4f8;
+  --muted: #9aa6b8;
+  --accent: #f0b429;
+  --accent-dim: #5a4010;
+  --accent-soft: rgba(240, 180, 41, 0.14);
+  --pass: #6ec8ff;
+  --warn: #ff7b54;
+  --glow: rgba(240, 180, 41, 0.1);
 }
 
 @theme inline {
@@ -85,8 +85,8 @@ a {
   isolation: isolate;
   background:
     radial-gradient(ellipse 80% 50% at 50% -20%, var(--glow), transparent 55%),
-    radial-gradient(ellipse 40% 30% at 90% 10%, rgba(61, 214, 198, 0.05), transparent 50%),
-    radial-gradient(ellipse 35% 40% at 10% 60%, rgba(26, 74, 69, 0.25), transparent 55%),
+    radial-gradient(ellipse 40% 30% at 92% 8%, rgba(240, 180, 41, 0.07), transparent 50%),
+    radial-gradient(ellipse 35% 40% at 8% 62%, rgba(90, 64, 16, 0.35), transparent 55%),
     var(--bg);
 }
 
@@ -198,14 +198,14 @@ a {
 
 .btn-primary {
   background: var(--accent);
-  color: #041210;
+  color: #1a1205;
   border: 1px solid var(--accent);
   font-weight: 600;
 }
 
 .btn-primary:hover {
-  background: #5ee0d2;
-  border-color: #5ee0d2;
+  background: #f7c54d;
+  border-color: #f7c54d;
 }
 
 .btn-ghost {

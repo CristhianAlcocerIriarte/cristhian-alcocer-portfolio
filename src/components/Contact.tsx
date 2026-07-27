@@ -71,7 +71,7 @@ export function Contact() {
                     href={site.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-accent transition-colors hover:text-[#5ee0d2]"
+                    className="text-accent transition-colors hover:text-[#f7c54d]"
                   >
                     LinkedIn profile →
                   </a>
