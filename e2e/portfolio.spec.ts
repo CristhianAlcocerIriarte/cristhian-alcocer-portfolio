@@ -12,7 +12,7 @@ test.describe("Portfolio - full automated suite", () => {
     );
     await expect(page.getByTestId("cta-experience")).toBeVisible();
     await expect(page.getByTestId("cta-linkedin")).toBeVisible();
-    await expect(page.getByTestId("run-suite-hero")).toBeVisible();
+    await expect(page.getByTestId("cta-tools")).toBeVisible();
   });
 
   test("navigation exposes all primary sections", async ({ page }) => {

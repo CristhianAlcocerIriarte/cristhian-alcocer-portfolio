@@ -2,15 +2,20 @@
 
 import { useEffect } from "react";
 
+function scrollToId(id: string) {
+  const target = document.getElementById(id);
+  if (!target) return;
+  target.scrollIntoView({ behavior: "instant", block: "start" });
+}
+
 export function HashScroll() {
   useEffect(() => {
     const scrollToHash = () => {
       const id = window.location.hash.replace(/^#/, "");
       if (!id) return;
-      const target = document.getElementById(id);
-      if (!target) return;
+      // Double rAF: wait for layout after client navigations (e.g. /tools → /#contact).
       window.requestAnimationFrame(() => {
-        target.scrollIntoView({ behavior: "smooth", block: "start" });
+        window.requestAnimationFrame(() => scrollToId(id));
       });
     };
 

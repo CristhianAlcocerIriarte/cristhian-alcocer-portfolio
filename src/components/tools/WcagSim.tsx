@@ -121,7 +121,7 @@ function runSectionChecks(doc: Document): CheckResult[] {
           break;
         }
         case "hero-cta-names": {
-          const ids = ["cta-experience", "cta-linkedin", "run-suite-hero"];
+          const ids = ["cta-experience", "cta-linkedin", "cta-tools"];
           const missing = ids.filter((id) => !query(doc, `[data-testid="${id}"]`));
           status = missing.length === 0 ? "pass" : "fail";
           detail =

@@ -19,15 +19,15 @@ const channels = [
     external: true,
   },
   {
-    label: "Location",
-    value: site.location,
-    href: null,
-    external: false,
-  },
-  {
     label: "LinkedIn",
     value: "View profile",
     href: site.linkedin,
+    external: true,
+  },
+  {
+    label: "Location",
+    value: site.location,
+    href: "https://www.google.com/maps/search/?api=1&query=Plaza+14+de+Septiembre%2C+Cochabamba%2C+Bolivia",
     external: true,
   },
 ] as const;

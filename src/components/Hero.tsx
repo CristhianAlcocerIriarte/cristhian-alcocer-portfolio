@@ -1,8 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { site } from "@/lib/content";
-import { RunSuiteHeroButton } from "@/components/TestRunner";
 import { TerminalPanel } from "@/components/ui/TerminalPanel";
 
 export function Hero() {
@@ -73,7 +73,13 @@ export function Hero() {
               >
                 Connect on LinkedIn
               </a>
-              <RunSuiteHeroButton />
+              <Link
+                href="/tools/"
+                data-testid="cta-tools"
+                className="btn btn-tools"
+              >
+                Tools
+              </Link>
             </motion.div>
           </div>
 

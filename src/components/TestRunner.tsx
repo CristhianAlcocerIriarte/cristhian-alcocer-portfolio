@@ -317,19 +317,3 @@ export function TestRunner() {
   );
 }
 
-export function RunSuiteHeroButton() {
-  return (
-    <button
-      type="button"
-      data-testid="run-suite-hero"
-      className="btn btn-ghost border-accent/40 text-accent hover:bg-accent-soft"
-      onClick={() => {
-        document
-          .querySelector<HTMLButtonElement>('[data-testid="run-suite-fab"]')
-          ?.click();
-      }}
-    >
-      ▶ Run Playwright suite
-    </button>
-  );
-}

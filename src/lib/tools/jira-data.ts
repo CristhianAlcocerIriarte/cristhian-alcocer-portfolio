@@ -40,7 +40,7 @@ export const e2eTestCases = [
       "Open homepage",
       "Assert [data-testid=hero] is visible",
       "Assert h1 contains Quality that ships",
-      "Assert CTAs experience, LinkedIn and Run suite are visible",
+      "Assert CTAs experience, LinkedIn and Tools are visible",
     ],
     expected: "Hero composition and primary CTAs render correctly.",
   },

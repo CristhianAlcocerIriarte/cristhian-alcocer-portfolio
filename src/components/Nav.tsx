@@ -9,6 +9,12 @@ function sectionId(href: string) {
   return href.replace(/^#/, "");
 }
 
+/** Distance from viewport top used to decide which section is "active". */
+function spyOffset() {
+  // Sticky header (~64px) + a bit of breathing room into the section.
+  return 96;
+}
+
 export function Nav() {
   const pathname = usePathname();
   const onTools = pathname?.includes("/tools") ?? false;
@@ -24,27 +30,48 @@ export function Nav() {
   }, []);
 
   useEffect(() => {
-    if (onTools) return;
+    if (onTools) {
+      setSectionActive("");
+      return;
+    }
 
     const sections = navLinks
       .filter((link) => link.href.startsWith("#"))
-      .map((link) => document.querySelector(link.href))
+      .map((link) => document.getElementById(sectionId(link.href)))
       .filter(Boolean) as HTMLElement[];
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-        if (visible[0]?.target.id) {
-          setSectionActive(visible[0].target.id);
-        }
-      },
-      { rootMargin: "-35% 0px -50% 0px", threshold: [0.1, 0.35, 0.6] },
-    );
+    const updateActive = () => {
+      const offset = spyOffset();
+      let current = sections[0]?.id ?? "";
 
-    sections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
+      // Last section whose top has crossed the spy line wins. Works for tall
+      // sections like Experience where IntersectionObserver ratios are noisy.
+      for (const section of sections) {
+        if (section.getBoundingClientRect().top - offset <= 0) {
+          current = section.id;
+        }
+      }
+
+      // Near page bottom, force the last section (Contact) active.
+      const atBottom =
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 8;
+      if (atBottom && sections.length) {
+        current = sections[sections.length - 1].id;
+      }
+
+      setSectionActive((prev) => (prev === current ? prev : current));
+    };
+
+    updateActive();
+    window.addEventListener("scroll", updateActive, { passive: true });
+    window.addEventListener("hashchange", updateActive);
+    window.addEventListener("resize", updateActive);
+    return () => {
+      window.removeEventListener("scroll", updateActive);
+      window.removeEventListener("hashchange", updateActive);
+      window.removeEventListener("resize", updateActive);
+    };
   }, [onTools]);
 
   const sectionHref = (href: string) => {
@@ -111,6 +138,18 @@ export function Nav() {
                 key={link.id}
                 href={sectionHref(`#${link.id}`)}
                 className={className}
+                onClick={(event) => {
+                  setSectionActive(link.id);
+                  setOpen(false);
+                  // Same-page: jump instantly so the page does not animate through About → …
+                  if (!onTools) {
+                    event.preventDefault();
+                    const target = document.getElementById(link.id);
+                    if (!target) return;
+                    window.history.pushState(null, "", `#${link.id}`);
+                    target.scrollIntoView({ behavior: "instant", block: "start" });
+                  }
+                }}
               >
                 {link.label}
                 <span
@@ -124,7 +163,17 @@ export function Nav() {
           {site.openToWork ? (
             <Link
               href={sectionHref("#contact")}
-              className="ml-2 border border-accent/35 bg-accent-soft px-3 py-1.5 font-mono text-[0.7rem] uppercase tracking-wider text-accent transition-colors hover:border-accent"
+              className="btn-open-to-work ml-2"
+              onClick={(event) => {
+                setSectionActive("contact");
+                if (!onTools) {
+                  event.preventDefault();
+                  const target = document.getElementById("contact");
+                  if (!target) return;
+                  window.history.pushState(null, "", "#contact");
+                  target.scrollIntoView({ behavior: "instant", block: "start" });
+                }
+              }}
             >
               Open to work
             </Link>
@@ -149,19 +198,43 @@ export function Nav() {
           aria-label="Mobile"
         >
           <ul className="flex flex-col gap-1">
-            {links.map((link) => (
-              <li key={link.id}>
-                <Link
-                  href={
-                    link.kind === "tools" ? "/tools/" : sectionHref(`#${link.id}`)
-                  }
-                  className="block px-1 py-2.5 font-mono text-sm text-muted hover:text-accent"
-                  onClick={() => setOpen(false)}
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
+            {links.map((link) => {
+              const isActive =
+                link.kind === "tools"
+                  ? onTools
+                  : !onTools && sectionActive === link.id;
+              return (
+                <li key={link.id}>
+                  <Link
+                    href={
+                      link.kind === "tools" ? "/tools/" : sectionHref(`#${link.id}`)
+                    }
+                    className={`block px-1 py-2.5 font-mono text-sm transition-colors ${
+                      isActive ? "text-accent" : "text-muted hover:text-accent"
+                    }`}
+                    onClick={(event) => {
+                      if (link.kind === "section") {
+                        setSectionActive(link.id);
+                        if (!onTools) {
+                          event.preventDefault();
+                          const target = document.getElementById(link.id);
+                          if (target) {
+                            window.history.pushState(null, "", `#${link.id}`);
+                            target.scrollIntoView({
+                              behavior: "instant",
+                              block: "start",
+                            });
+                          }
+                        }
+                      }
+                      setOpen(false);
+                    }}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </nav>
       ) : null}
