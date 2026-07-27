@@ -54,23 +54,22 @@ export function Experience() {
                   ) : null}
                 </div>
 
-                <div>
+                <div className="min-w-0">
                   <h3 className="font-display text-xl tracking-tight text-text sm:text-2xl">
                     {role.title}
                   </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-muted sm:text-base">
+                  <p className="text-prose mt-3 text-sm leading-relaxed text-muted sm:text-base">
                     {role.summary}
                   </p>
-                  <ul className="mt-5 space-y-3">
+                  <ul className="mt-5 space-y-4">
                     {role.highlights.map((item) => (
-                      <li
-                        key={item.label}
-                        className="text-sm leading-relaxed text-muted sm:text-[0.95rem]"
-                      >
-                        <span className="font-mono text-accent">
-                          {item.label}:
-                        </span>{" "}
-                        <span className="text-text/80">{item.text}</span>
+                      <li key={item.label} className="min-w-0">
+                        <p className="font-mono text-xs uppercase tracking-wider text-accent">
+                          {item.label}
+                        </p>
+                        <p className="text-prose mt-1.5 text-sm leading-relaxed text-text/80 sm:text-[0.95rem]">
+                          {item.text}
+                        </p>
                       </li>
                     ))}
                   </ul>

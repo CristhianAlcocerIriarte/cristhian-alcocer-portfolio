@@ -143,6 +143,17 @@ a {
   margin-inline: auto;
 }
 
+/* Body copy: even edges without affecting headings, chips or mono UI. */
+.text-prose {
+  display: block;
+  width: 100%;
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  overflow-wrap: break-word;
+}
+
 .eyebrow {
   display: inline-flex;
   align-items: center;

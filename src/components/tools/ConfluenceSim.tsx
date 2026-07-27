@@ -51,7 +51,7 @@ export function ConfluenceSim() {
             </span>
           ))}
         </div>
-        <div className="mt-6 space-y-4 text-sm leading-relaxed text-muted sm:text-base">
+        <div className="text-prose mt-6 space-y-4 text-sm leading-relaxed text-muted sm:text-base">
           {page.body.map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>
           ))}

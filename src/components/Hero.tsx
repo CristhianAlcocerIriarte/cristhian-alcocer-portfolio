@@ -40,14 +40,14 @@ export function Hero() {
             </motion.h1>
 
             <motion.p
-              className="mt-5 max-w-xl text-base font-medium text-text/85 sm:text-lg"
+              className="text-prose mt-5 max-w-xl text-base font-medium text-text/85 sm:text-lg"
               {...fade(0.28)}
             >
               {site.summary}
             </motion.p>
 
             <motion.p
-              className="mt-4 max-w-xl text-sm leading-relaxed text-muted sm:text-base"
+              className="text-prose mt-4 max-w-xl text-sm leading-relaxed text-muted sm:text-base"
               {...fade(0.34)}
             >
               {site.intro}

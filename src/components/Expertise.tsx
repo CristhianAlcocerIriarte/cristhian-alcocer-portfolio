@@ -36,7 +36,7 @@ export function Expertise() {
               <h3 className="font-display text-xl tracking-tight text-text sm:text-2xl">
                 {area.title}
               </h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted sm:text-base">
+              <p className="text-prose mt-3 text-sm leading-relaxed text-muted sm:text-base">
                 {area.description}
               </p>
               <div className="mt-5 flex flex-wrap gap-2">

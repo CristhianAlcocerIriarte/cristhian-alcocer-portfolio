@@ -37,7 +37,7 @@ export function ToolsShell() {
         <h1 className="mt-2 font-display text-3xl tracking-tight text-text sm:text-4xl md:text-5xl">
           QA tooling simulations
         </h1>
-        <p className="mt-3 text-base leading-relaxed text-muted sm:text-lg">
+        <p className="text-prose mt-3 text-base leading-relaxed text-muted sm:text-lg">
           Interactive demos of Confluence, Jira, SQL, Postman, Playwright, JMeter,
           Fiddler, WCAG and Kafka - seeded with real portfolio data so you can explore
           how I work with everyday QA and delivery tools.

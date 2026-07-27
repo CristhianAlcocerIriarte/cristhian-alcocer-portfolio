@@ -32,7 +32,7 @@ export function Education() {
                 {education.degree.focus.map((item) => (
                   <li
                     key={item}
-                    className="text-sm leading-relaxed text-muted"
+                    className="text-prose text-sm leading-relaxed text-muted"
                   >
                     <span className="mr-2 font-mono text-accent">›</span>
                     {item}

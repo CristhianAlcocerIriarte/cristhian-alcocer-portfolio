@@ -18,7 +18,7 @@ export function About() {
 
         <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-12">
           <Reveal delay={0.08}>
-            <div className="space-y-5 text-base leading-relaxed text-muted sm:text-lg">
+            <div className="text-prose space-y-5 text-base leading-relaxed text-muted sm:text-lg">
               <p className="text-text/90">
                 <strong className="font-medium text-text">{site.fullName}</strong>
                 {" - "}
@@ -29,7 +29,7 @@ export function About() {
               ))}
               {about.recommendation ? (
                 <figure className="mt-8 border border-line bg-surface/50 p-5 sm:p-6">
-                  <blockquote className="text-sm leading-relaxed text-text/85 sm:text-base">
+                  <blockquote className="text-prose text-sm leading-relaxed text-text/85 sm:text-base">
                     “{about.recommendation.quote}”
                   </blockquote>
                   <figcaption className="mt-3 font-mono text-xs text-muted">
@@ -56,7 +56,7 @@ export function About() {
                     <span className="mt-1 shrink-0 font-mono text-xs text-accent">
                       {String(index + 1).padStart(2, "0")}
                     </span>
-                    <span>{item}</span>
+                    <span className="text-prose">{item}</span>
                   </li>
                 ))}
               </ul>

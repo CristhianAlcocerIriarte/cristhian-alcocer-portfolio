@@ -53,7 +53,7 @@ export function Contact() {
               <span className="font-mono text-xs uppercase tracking-[0.14em] text-accent">
                 Open to work
               </span>
-              <p className="text-sm text-muted sm:text-base">
+              <p className="text-prose text-sm text-muted sm:text-base">
                 QA leadership and Quality Control Engineer roles.
               </p>
             </div>
