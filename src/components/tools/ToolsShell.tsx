@@ -2,23 +2,29 @@
 
 import { useState } from "react";
 import { ConfluenceSim } from "@/components/tools/ConfluenceSim";
+import { FiddlerSim } from "@/components/tools/FiddlerSim";
 import { JiraSim } from "@/components/tools/JiraSim";
 import { JMeterSim } from "@/components/tools/JMeterSim";
+import { KafkaSim } from "@/components/tools/KafkaSim";
 import { PostmanSim } from "@/components/tools/PostmanSim";
 import { SqlSim } from "@/components/tools/SqlSim";
+import { WcagSim } from "@/components/tools/WcagSim";
 
 const tabs = [
+  { id: "confluence", label: "Confluence", blurb: "Living documentation space" },
+  { id: "jira", label: "Jira", blurb: "Epic, stories, tests and executions" },
+  { id: "sql", label: "SQL", blurb: "In-memory portfolio database" },
   { id: "postman", label: "Postman", blurb: "API collection for this portfolio" },
   { id: "jmeter", label: "JMeter", blurb: "Load test against portfolio APIs" },
-  { id: "jira", label: "Jira", blurb: "Epic, stories, tests and executions" },
-  { id: "confluence", label: "Confluence", blurb: "Living documentation space" },
-  { id: "sql", label: "SQL", blurb: "In-memory portfolio database" },
+  { id: "fiddler", label: "Fiddler", blurb: "HTTP(S) traffic inspection" },
+  { id: "wcag", label: "WCAG", blurb: "Accessibility audit by section" },
+  { id: "kafka", label: "Kafka", blurb: "Event streaming for portfolio flows" },
 ] as const;
 
 type TabId = (typeof tabs)[number]["id"];
 
 export function ToolsShell() {
-  const [active, setActive] = useState<TabId>("postman");
+  const [active, setActive] = useState<TabId>("confluence");
 
   return (
     <div>
@@ -30,9 +36,9 @@ export function ToolsShell() {
           QA tooling simulations
         </h1>
         <p className="mt-3 text-base leading-relaxed text-muted sm:text-lg">
-          Interactive demos of Postman, JMeter, Jira, Confluence and SQL - all
-          seeded with real data from this portfolio so you can explore how I work
-          with everyday QA and delivery tools.
+          Interactive demos of Confluence, Jira, SQL, Postman, JMeter, Fiddler, WCAG and
+          Kafka - seeded with real portfolio data so you can explore how I work with
+          everyday QA and delivery tools.
         </p>
       </div>
 
@@ -61,6 +67,9 @@ export function ToolsShell() {
       {active === "jira" ? <JiraSim /> : null}
       {active === "confluence" ? <ConfluenceSim /> : null}
       {active === "sql" ? <SqlSim /> : null}
+      {active === "wcag" ? <WcagSim /> : null}
+      {active === "kafka" ? <KafkaSim /> : null}
+      {active === "fiddler" ? <FiddlerSim /> : null}
     </div>
   );
 }

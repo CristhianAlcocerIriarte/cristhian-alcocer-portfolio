@@ -69,6 +69,8 @@ export const confluencePages: ConfluencePage[] = [
       "v1.0 - Next.js portfolio rebuild with amber dark theme and Playwright runner.",
       "v1.1 - LinkedIn content alignment, WhatsApp contact link, spacing polish.",
       "v1.2 - Tools lab: Postman collection, JMeter plan, Jira QA project, Confluence docs, SQL console.",
+      "v1.3 - WCAG audit lab with section checks and axe-core against the live homepage preview.",
+      "v1.4 - Kafka lab with portfolio topics, produce/consume flows and message inspection.",
     ],
   },
   {
