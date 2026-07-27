@@ -22,7 +22,11 @@ export function Contact() {
   };
 
   return (
-    <section id="contact" className="section-pad border-t border-line">
+    <section
+      id="contact"
+      data-testid="section-contact"
+      className="section-pad border-t border-line"
+    >
       <div className="container-narrow">
         <Reveal>
           <SectionHeading
@@ -88,6 +92,7 @@ export function Contact() {
                     type="text"
                     name="name"
                     required
+                    data-testid="contact-name"
                     value={name}
                     onChange={(event) => setName(event.target.value)}
                     className="w-full border border-line-strong bg-bg px-3 py-3 font-sans text-sm text-text outline-none transition-colors placeholder:text-muted/50 focus:border-accent"
@@ -104,6 +109,7 @@ export function Contact() {
                     type="email"
                     name="email"
                     required
+                    data-testid="contact-email"
                     value={email}
                     onChange={(event) => setEmail(event.target.value)}
                     className="w-full border border-line-strong bg-bg px-3 py-3 font-sans text-sm text-text outline-none transition-colors placeholder:text-muted/50 focus:border-accent"
@@ -120,6 +126,7 @@ export function Contact() {
                     name="message"
                     required
                     rows={5}
+                    data-testid="contact-message"
                     value={message}
                     onChange={(event) => setMessage(event.target.value)}
                     className="w-full resize-y border border-line-strong bg-bg px-3 py-3 font-sans text-sm text-text outline-none transition-colors placeholder:text-muted/50 focus:border-accent"
@@ -127,7 +134,11 @@ export function Contact() {
                   />
                 </label>
 
-                <button type="submit" className="btn btn-primary w-full sm:w-auto">
+                <button
+                  type="submit"
+                  data-testid="contact-submit"
+                  className="btn btn-primary w-full sm:w-auto"
+                >
                   Send message
                 </button>
               </div>

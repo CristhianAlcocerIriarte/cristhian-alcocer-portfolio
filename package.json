@@ -7,7 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "deploy": "npm run build && gh-pages -d out -t true"
+    "deploy": "npm run build && gh-pages -d out -t true",
+    "test:e2e": "playwright test",
+    "test:e2e:static": "npm run build && node scripts/prepare-e2e-site.mjs && cross-env E2E_MODE=static playwright test",
+    "test:e2e:ui": "playwright test --ui"
   },
   "dependencies": {
     "framer-motion": "^12.42.2",
@@ -16,13 +19,16 @@
     "react-dom": "19.2.4"
   },
   "devDependencies": {
+    "@playwright/test": "^1.62.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "cross-env": "^10.1.0",
     "eslint": "^9",
     "eslint-config-next": "16.2.12",
     "gh-pages": "^6.3.0",
+    "serve": "^14.2.6",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

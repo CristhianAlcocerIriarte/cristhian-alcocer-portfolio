@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import { site } from "@/lib/content";
+import { RunSuiteHeroButton } from "@/components/TestRunner";
 import { TerminalPanel } from "@/components/ui/TerminalPanel";
 
 export function Hero() {
@@ -23,6 +24,7 @@ export function Hero() {
   return (
     <section
       id="top"
+      data-testid="hero"
       className="relative overflow-hidden pt-28 pb-16 sm:pt-32 sm:pb-20 lg:min-h-[100svh] lg:pb-24"
     >
       <div className="container-narrow section-pad !py-0">
@@ -69,17 +71,23 @@ export function Hero() {
               className="mt-8 flex flex-wrap gap-3"
               {...fade(0.42)}
             >
-              <a href="#experience" className="btn btn-primary">
+              <a
+                href="#experience"
+                data-testid="cta-experience"
+                className="btn btn-primary"
+              >
                 View experience
               </a>
               <a
                 href={site.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-testid="cta-linkedin"
                 className="btn btn-ghost"
               >
                 Connect on LinkedIn
               </a>
+              <RunSuiteHeroButton />
             </motion.div>
           </div>
 

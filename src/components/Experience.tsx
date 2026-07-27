@@ -4,7 +4,11 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 
 export function Experience() {
   return (
-    <section id="experience" className="section-pad border-t border-line">
+    <section
+      id="experience"
+      data-testid="section-experience"
+      className="section-pad border-t border-line"
+    >
       <div className="container-narrow">
         <Reveal>
           <SectionHeading

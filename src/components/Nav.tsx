@@ -54,7 +54,11 @@ export function Nav() {
           </span>
         </a>
 
-        <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary">
+        <nav
+          className="hidden items-center gap-1 lg:flex"
+          aria-label="Primary"
+          data-testid="primary-nav"
+        >
           {navLinks.map((link) => {
             const isActive = active === link.href;
             return (

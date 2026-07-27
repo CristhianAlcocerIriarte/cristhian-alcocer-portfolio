@@ -4,7 +4,11 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 
 export function Expertise() {
   return (
-    <section id="expertise" className="section-pad border-t border-line">
+    <section
+      id="expertise"
+      data-testid="section-expertise"
+      className="section-pad border-t border-line"
+    >
       <div className="container-narrow">
         <Reveal>
           <SectionHeading

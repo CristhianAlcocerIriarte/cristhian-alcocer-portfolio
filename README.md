@@ -31,6 +31,14 @@ npm run deploy
 
 `basePath` is configured as `/cristhian-alcocer-portfolio` for production. If the repository name changes, update `repoName` in `next.config.ts`.
 
-## Edit content
+## Automated tests (Playwright)
 
-All copy lives in [`src/lib/content.ts`](src/lib/content.ts) — update roles, metrics, contact links, and LinkedIn URL there.
+```bash
+# Against local Next.js dev server
+npm run test:e2e
+
+# Against production static export (same as CI)
+npm run test:e2e:static
+```
+
+On the live site, use **Run Playwright suite** (hero CTA or floating button) to execute the interactive live validation suite against the current page.

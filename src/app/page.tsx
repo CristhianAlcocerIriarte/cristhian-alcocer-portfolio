@@ -6,6 +6,7 @@ import { Expertise } from "@/components/Expertise";
 import { Footer } from "@/components/Footer";
 import { Hero } from "@/components/Hero";
 import { Nav } from "@/components/Nav";
+import { TestRunner } from "@/components/TestRunner";
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
         <Contact />
       </main>
       <Footer />
+      <TestRunner />
     </>
   );
 }
