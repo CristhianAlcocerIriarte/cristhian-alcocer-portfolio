@@ -31,7 +31,7 @@ export function ToolsShell() {
   const [active, setActive] = useState<TabId>("confluence");
 
   return (
-    <div className="min-w-0">
+    <div className="min-w-0 overflow-x-hidden">
       <div className="mb-6 max-w-3xl">
         <p className="font-mono text-xs uppercase tracking-[0.14em] text-accent">
           Tools lab

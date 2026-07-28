@@ -15,9 +15,9 @@ export default function ToolsPage() {
       <Nav />
       <main
         id="main"
-        className="px-[clamp(1.25rem,4vw,2.5rem)] pb-[clamp(2.5rem,5vw,3.75rem)] pt-28 sm:pt-32 md:pt-36"
+        className="overflow-x-hidden px-[clamp(1.25rem,4vw,2.5rem)] pb-[clamp(2.5rem,5vw,3.75rem)] pt-28 sm:pt-32 md:pt-36"
       >
-        <div className="container-narrow">
+        <div className="container-narrow min-w-0">
           <ToolsShell />
         </div>
       </main>

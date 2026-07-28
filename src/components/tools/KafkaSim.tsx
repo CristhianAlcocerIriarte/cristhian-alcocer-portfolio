@@ -89,7 +89,7 @@ export function KafkaSim() {
   const lag = topicMessages.filter((message) => !consumedIds.includes(message.id)).length;
 
   return (
-    <div className="min-h-[560px] border border-line bg-surface/40">
+    <div className="min-h-[560px] min-w-0 overflow-x-hidden border border-line bg-surface/40">
       <div className="border-b border-line px-4 py-3 sm:px-5">
         <p className="font-mono text-[0.65rem] uppercase tracking-[0.14em] text-accent">
           Kafka lab
@@ -101,28 +101,30 @@ export function KafkaSim() {
         </p>
       </div>
 
-      <div className="grid gap-3 border-b border-line px-4 py-3 sm:grid-cols-4 sm:px-5">
-        <div className="border border-line bg-bg/40 px-3 py-2">
+      <div className="grid grid-cols-2 gap-3 border-b border-line px-4 py-3 sm:grid-cols-4 sm:px-5">
+        <div className="min-w-0 border border-line bg-bg/40 px-3 py-2">
           <p className="font-mono text-[0.65rem] uppercase tracking-wider text-muted">
             Cluster
           </p>
-          <p className="mt-1 font-mono text-xs text-text">{kafkaCluster.id}</p>
+          <p className="mt-1 break-all font-mono text-xs text-text">{kafkaCluster.id}</p>
         </div>
-        <div className="border border-line bg-bg/40 px-3 py-2">
+        <div className="min-w-0 border border-line bg-bg/40 px-3 py-2">
           <p className="font-mono text-[0.65rem] uppercase tracking-wider text-muted">
             Brokers
           </p>
-          <p className="mt-1 font-mono text-xs text-text">
+          <p className="mt-1 break-all font-mono text-xs text-text">
             {kafkaCluster.brokers.join(", ")}
           </p>
         </div>
-        <div className="border border-line bg-bg/40 px-3 py-2">
+        <div className="min-w-0 border border-line bg-bg/40 px-3 py-2">
           <p className="font-mono text-[0.65rem] uppercase tracking-wider text-muted">
             Client
           </p>
-          <p className="mt-1 font-mono text-xs text-text">{kafkaCluster.clientId}</p>
+          <p className="mt-1 break-all font-mono text-xs text-text">
+            {kafkaCluster.clientId}
+          </p>
         </div>
-        <div className="border border-line bg-bg/40 px-3 py-2">
+        <div className="min-w-0 border border-line bg-bg/40 px-3 py-2">
           <p className="font-mono text-[0.65rem] uppercase tracking-wider text-muted">
             Consumer lag
           </p>
@@ -130,31 +132,33 @@ export function KafkaSim() {
         </div>
       </div>
 
-      <div className="grid gap-0 lg:grid-cols-[260px_1fr]">
-        <aside className="border-b border-line lg:border-b-0 lg:border-r">
+      <div className="grid min-w-0 gap-0 lg:grid-cols-[minmax(0,260px)_minmax(0,1fr)]">
+        <aside className="min-w-0 border-b border-line lg:border-b-0 lg:border-r">
           <div className="border-b border-line px-4 py-3">
             <p className="font-mono text-[0.65rem] uppercase tracking-wider text-muted">
               Topics
             </p>
           </div>
-          <ul>
+          <ul className="min-w-0">
             {kafkaTopics.map((item) => {
               const count = messages.filter((message) => message.topic === item.name).length;
               return (
-                <li key={item.name}>
+                <li key={item.name} className="min-w-0">
                   <button
                     type="button"
                     onClick={() => {
                       setTopicName(item.name);
                       setConsuming(false);
                     }}
-                    className={`w-full px-4 py-3 text-left transition ${
+                    className={`w-full min-w-0 px-3 py-3 text-left transition sm:px-4 ${
                       topicName === item.name
                         ? "bg-accent-soft text-text"
                         : "text-muted hover:bg-bg/50 hover:text-text"
                     }`}
                   >
-                    <span className="block font-mono text-xs text-accent">{item.name}</span>
+                    <span className="block break-all font-mono text-xs leading-snug text-accent">
+                      {item.name}
+                    </span>
                     <span className="mt-1 block text-[0.7rem] opacity-80">
                       {item.partitions} partitions · {count} messages
                     </span>
@@ -165,10 +169,10 @@ export function KafkaSim() {
           </ul>
         </aside>
 
-        <div className="min-w-0">
+        <div className="min-w-0 overflow-x-hidden">
           <div className="border-b border-line px-4 py-3 sm:px-5">
-            <p className="text-sm text-muted">{topic.description}</p>
-            <p className="mt-2 font-mono text-[0.7rem] text-muted">
+            <p className="break-words text-sm text-muted">{topic.description}</p>
+            <p className="mt-2 break-all font-mono text-[0.7rem] leading-relaxed text-muted">
               group.id = <span className="text-accent">{topic.consumerGroup}</span> · rf=
               {topic.replicationFactor}
             </p>
@@ -197,83 +201,123 @@ export function KafkaSim() {
             </div>
           </div>
 
-          <div className="grid gap-0 lg:grid-cols-[1.05fr_0.95fr]">
-            <div className="border-b border-line lg:border-b-0 lg:border-r">
+          <div className="grid min-w-0 gap-0 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
+            <div className="min-w-0 border-b border-line lg:border-b-0 lg:border-r">
               <div className="border-b border-line px-4 py-2 font-mono text-[0.65rem] uppercase tracking-wider text-muted">
                 Topic log
               </div>
-              <div className="max-h-[320px] overflow-y-auto">
+              <div className="max-h-[320px] min-w-0 overflow-x-hidden overflow-y-auto">
                 {topicMessages.length ? (
-                  <table className="w-full text-left text-xs">
-                    <thead className="sticky top-0 bg-surface font-mono text-muted">
-                      <tr className="border-b border-line">
-                        <th className="px-3 py-2">P</th>
-                        <th className="px-2 py-2">Offset</th>
-                        <th className="px-2 py-2">Key</th>
-                        <th className="px-3 py-2">Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
+                  <>
+                    {/* Mobile: compact message cards */}
+                    <ul className="md:hidden">
                       {topicMessages.map((message) => {
                         const consumed = consumedIds.includes(message.id);
                         return (
-                          <tr
-                            key={message.id}
-                            className={`cursor-pointer border-b border-line/70 hover:bg-bg/50 ${
-                              selected?.id === message.id ? "bg-accent-soft/40" : ""
-                            }`}
-                            onClick={() => setSelectedId(message.id)}
-                          >
-                            <td className="px-3 py-2 font-mono text-accent">
-                              {message.partition}
-                            </td>
-                            <td className="px-2 py-2 font-mono">{message.offset}</td>
-                            <td className="max-w-[140px] truncate px-2 py-2 text-text/85">
-                              {message.key}
-                            </td>
-                            <td className="px-3 py-2 font-mono">
-                              <span className={consumed ? "text-pass" : "text-warn"}>
-                                {consumed ? "consumed" : "queued"}
+                          <li key={message.id}>
+                            <button
+                              type="button"
+                              onClick={() => setSelectedId(message.id)}
+                              className={`flex w-full min-w-0 flex-col gap-1 border-b border-line/70 px-3 py-3 text-left transition hover:bg-bg/50 ${
+                                selected?.id === message.id ? "bg-accent-soft/40" : ""
+                              }`}
+                            >
+                              <div className="flex min-w-0 items-center gap-2">
+                                <span className="shrink-0 font-mono text-xs text-accent">
+                                  p{message.partition}
+                                </span>
+                                <span className="shrink-0 font-mono text-xs text-muted">
+                                  #{message.offset}
+                                </span>
+                                <span
+                                  className={`shrink-0 font-mono text-[0.65rem] ${
+                                    consumed ? "text-pass" : "text-warn"
+                                  }`}
+                                >
+                                  {consumed ? "consumed" : "queued"}
+                                </span>
+                              </div>
+                              <span className="truncate font-mono text-[0.7rem] text-text/85">
+                                {message.key}
                               </span>
-                            </td>
-                          </tr>
+                            </button>
+                          </li>
                         );
                       })}
-                    </tbody>
-                  </table>
+                    </ul>
+
+                    {/* Desktop: full table */}
+                    <table className="hidden w-full table-fixed text-left text-xs md:table">
+                      <thead className="sticky top-0 bg-surface font-mono text-muted">
+                        <tr className="border-b border-line">
+                          <th className="w-12 px-3 py-2">P</th>
+                          <th className="w-16 px-2 py-2">Offset</th>
+                          <th className="px-2 py-2">Key</th>
+                          <th className="w-24 px-3 py-2">Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {topicMessages.map((message) => {
+                          const consumed = consumedIds.includes(message.id);
+                          return (
+                            <tr
+                              key={message.id}
+                              className={`cursor-pointer border-b border-line/70 hover:bg-bg/50 ${
+                                selected?.id === message.id ? "bg-accent-soft/40" : ""
+                              }`}
+                              onClick={() => setSelectedId(message.id)}
+                            >
+                              <td className="px-3 py-2 font-mono text-accent">
+                                {message.partition}
+                              </td>
+                              <td className="px-2 py-2 font-mono">{message.offset}</td>
+                              <td className="truncate px-2 py-2 text-text/85">
+                                {message.key}
+                              </td>
+                              <td className="px-3 py-2 font-mono">
+                                <span className={consumed ? "text-pass" : "text-warn"}>
+                                  {consumed ? "consumed" : "queued"}
+                                </span>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </>
                 ) : (
                   <p className="px-4 py-3 text-sm text-muted">No messages in this topic.</p>
                 )}
               </div>
             </div>
 
-            <div className="px-4 py-3 sm:px-5">
+            <div className="min-w-0 overflow-x-hidden px-4 py-3 sm:px-5">
               <p className="font-mono text-[0.65rem] uppercase tracking-wider text-muted">
                 Message detail
               </p>
               {selected ? (
-                <div className="mt-2 space-y-2">
+                <div className="mt-2 min-w-0 space-y-2">
                   <dl className="grid gap-2 font-mono text-[0.7rem] text-muted sm:grid-cols-2">
-                    <div>
+                    <div className="min-w-0">
                       <dt>Topic</dt>
-                      <dd className="text-accent">{selected.topic}</dd>
+                      <dd className="break-all text-accent">{selected.topic}</dd>
                     </div>
-                    <div>
+                    <div className="min-w-0">
                       <dt>Timestamp</dt>
-                      <dd className="text-text">{selected.timestamp}</dd>
+                      <dd className="break-all text-text">{selected.timestamp}</dd>
                     </div>
-                    <div>
+                    <div className="min-w-0">
                       <dt>Partition / Offset</dt>
                       <dd className="text-text">
                         {selected.partition} / {selected.offset}
                       </dd>
                     </div>
-                    <div>
+                    <div className="min-w-0">
                       <dt>Key</dt>
-                      <dd className="text-text">{selected.key}</dd>
+                      <dd className="break-all text-text">{selected.key}</dd>
                     </div>
                   </dl>
-                  <pre className="max-h-[240px] overflow-auto border border-line bg-bg p-3 font-mono text-[0.72rem] leading-relaxed text-text/90">
+                  <pre className="max-h-[240px] max-w-full overflow-x-hidden overflow-y-auto whitespace-pre-wrap break-words border border-line bg-bg p-3 font-mono text-[0.72rem] leading-relaxed text-text/90">
                     {JSON.stringify(selected.value, null, 2)}
                   </pre>
                 </div>
@@ -282,11 +326,11 @@ export function KafkaSim() {
               )}
 
               {produceLog.length ? (
-                <div className="mt-4">
+                <div className="mt-4 min-w-0">
                   <p className="font-mono text-[0.65rem] uppercase tracking-wider text-muted">
                     Producer log
                   </p>
-                  <pre className="mt-2 whitespace-pre-wrap font-mono text-[0.68rem] leading-relaxed text-muted">
+                  <pre className="mt-2 max-w-full whitespace-pre-wrap break-all font-mono text-[0.68rem] leading-relaxed text-muted">
                     {produceLog.join("\n")}
                   </pre>
                 </div>
