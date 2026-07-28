@@ -1,3 +1,9 @@
+import {
+  suiteResultPause,
+  suiteStepDelay,
+  wait,
+} from "@/lib/tools/suite-pace";
+
 export type LiveTestStatus = "idle" | "running" | "passed" | "failed";
 
 export type LiveTestCase = {
@@ -29,10 +35,6 @@ function qsa(root: Document, selector: string): Element[] {
   return Array.from(root.querySelectorAll(selector));
 }
 
-async function wait(ms: number) {
-  await new Promise((resolve) => window.setTimeout(resolve, ms));
-}
-
 export const liveSuiteMeta = {
   project: "chromium",
   specFile: "e2e/portfolio.spec.ts",
@@ -51,6 +53,12 @@ export const liveTestCases: LiveTestCase[] = [
       const doc = resolveRoot(root);
       await wait(120);
       const hero = qs(doc, '[data-testid="hero"]');
+      assert(
+        qs(doc, '[data-testid="hero-brand"]')?.textContent?.includes(
+          "Cristhian Alcocer",
+        ),
+        "Missing hero brand name",
+      );
       assert(hero.textContent?.includes("Quality that ships"), "Missing hero headline");
       assert(qs(doc, '[data-testid="cta-experience"]'), "Missing experience CTA");
       assert(qs(doc, '[data-testid="cta-linkedin"]'), "Missing LinkedIn CTA");
@@ -257,6 +265,8 @@ async function runOne(
   root?: Document,
 ) {
   onUpdate({ id: testCase.id, status: "running" });
+  const step = suiteStepDelay(380);
+  await wait(step);
   const started = performance.now();
   try {
     await testCase.run(root);
@@ -273,6 +283,7 @@ async function runOne(
       error: error instanceof Error ? error.message : "Unknown assertion error",
     });
   }
+  await wait(suiteResultPause(step));
 }
 
 export async function runLiveSuite(

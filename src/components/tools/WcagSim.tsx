@@ -3,6 +3,13 @@
 import { useMemo, useRef, useState } from "react";
 import type { Result, NodeResult } from "axe-core";
 import { wcagSections, type WcagImpact } from "@/lib/tools/wcag-data";
+import {
+  suiteResultPause,
+  suiteStepDelay,
+  wait,
+} from "@/lib/tools/suite-pace";
+
+type CheckStatus = "pass" | "fail" | "review" | "queued" | "running";
 
 type CheckResult = {
   id: string;
@@ -12,7 +19,7 @@ type CheckResult = {
   criterion: string;
   level: string;
   principle: string;
-  status: "pass" | "fail" | "review";
+  status: CheckStatus;
   detail: string;
 };
 
@@ -23,6 +30,13 @@ type AuditSummary = {
   axeViolations: number;
   axePasses: number;
   durationMs: number;
+};
+
+type AuditProgress = {
+  phase: "checks" | "axe";
+  current: number;
+  total: number;
+  label: string;
 };
 
 function homeHref() {
@@ -227,12 +241,14 @@ function impactTone(impact: string | null | undefined): WcagImpact {
 
 export function WcagSim() {
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  const runIdRef = useRef(0);
   const [ready, setReady] = useState(false);
   const [running, setRunning] = useState(false);
   const [checks, setChecks] = useState<CheckResult[]>([]);
   const [violations, setViolations] = useState<Result[]>([]);
   const [passes, setPasses] = useState<Result[]>([]);
   const [summary, setSummary] = useState<AuditSummary | null>(null);
+  const [progress, setProgress] = useState<AuditProgress | null>(null);
   const [selectedSection, setSelectedSection] = useState("all");
   const [error, setError] = useState<string | null>(null);
 
@@ -244,6 +260,22 @@ export function WcagSim() {
     [checks, selectedSection],
   );
 
+  const liveCounts = useMemo(() => {
+    const done = checks.filter(
+      (item) =>
+        item.status === "pass" ||
+        item.status === "fail" ||
+        item.status === "review",
+    );
+    return {
+      passes: done.filter((item) => item.status === "pass").length,
+      fails: done.filter((item) => item.status === "fail").length,
+      reviews: done.filter((item) => item.status === "review").length,
+      done: done.length,
+      total: checks.length,
+    };
+  }, [checks]);
+
   const runAudit = async () => {
     const iframe = iframeRef.current;
     const doc = iframe?.contentDocument;
@@ -252,37 +284,115 @@ export function WcagSim() {
       return;
     }
 
-    setRunning(true);
-    setError(null);
+    const runId = ++runIdRef.current;
+    const step = suiteStepDelay(360);
     const started = performance.now();
 
+    setRunning(true);
+    setError(null);
+    setSummary(null);
+    setViolations([]);
+    setPasses([]);
+
+    const queued: CheckResult[] = wcagSections.flatMap((section) =>
+      section.checks.map((check) => ({
+        id: check.id,
+        sectionId: section.id,
+        sectionLabel: section.label,
+        title: check.title,
+        criterion: check.criterion,
+        level: check.level,
+        principle: check.principle,
+        status: "queued" as const,
+        detail: "Queued…",
+      })),
+    );
+    setChecks(queued);
+
     try {
-      const sectionResults = runSectionChecks(doc);
+      // Compute all DOM checks up front, then reveal one by one for pacing.
+      const computed = runSectionChecks(doc);
+      let latest = queued;
+
+      for (let index = 0; index < computed.length; index += 1) {
+        if (runIdRef.current !== runId) return;
+        const item = computed[index];
+        setProgress({
+          phase: "checks",
+          current: index + 1,
+          total: computed.length,
+          label: item.title,
+        });
+
+        latest = latest.map((row) =>
+          row.id === item.id && row.sectionId === item.sectionId
+            ? { ...row, status: "running", detail: "Evaluating…" }
+            : row,
+        );
+        setChecks(latest);
+        await wait(step);
+        if (runIdRef.current !== runId) return;
+
+        latest = latest.map((row) =>
+          row.id === item.id && row.sectionId === item.sectionId
+            ? { ...item }
+            : row,
+        );
+        setChecks(latest);
+        await wait(suiteResultPause(step));
+      }
+
+      if (runIdRef.current !== runId) return;
+      setProgress({
+        phase: "axe",
+        current: computed.length,
+        total: computed.length,
+        label: "Running axe-core…",
+      });
+      await wait(step);
+
       const axeMod = await import("axe-core");
       const axe = axeMod.default ?? axeMod;
-
-      // Pass the iframe Element (same-window Node). Passing iframe.contentDocument
-      // fails axe context validation because it belongs to another Window realm.
       const axeResults = await axe.run(iframe, {
         runOnly: ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "best-practice"],
         iframes: true,
       });
 
-      setChecks(sectionResults);
-      setViolations(axeResults.violations);
+      if (runIdRef.current !== runId) return;
       setPasses(axeResults.passes);
+
+      const revealed: Result[] = [];
+      for (let index = 0; index < axeResults.violations.length; index += 1) {
+        if (runIdRef.current !== runId) return;
+        setProgress({
+          phase: "axe",
+          current: index + 1,
+          total: Math.max(1, axeResults.violations.length),
+          label: axeResults.violations[index].help,
+        });
+        revealed.push(axeResults.violations[index]);
+        setViolations([...revealed]);
+        await wait(suiteStepDelay(280));
+      }
+
+      if (runIdRef.current !== runId) return;
       setSummary({
-        passes: sectionResults.filter((item) => item.status === "pass").length,
-        fails: sectionResults.filter((item) => item.status === "fail").length,
-        reviews: sectionResults.filter((item) => item.status === "review").length,
+        passes: computed.filter((item) => item.status === "pass").length,
+        fails: computed.filter((item) => item.status === "fail").length,
+        reviews: computed.filter((item) => item.status === "review").length,
         axeViolations: axeResults.violations.length,
         axePasses: axeResults.passes.length,
         durationMs: Math.round(performance.now() - started),
       });
+      setProgress(null);
     } catch (err) {
+      if (runIdRef.current !== runId) return;
       setError(err instanceof Error ? err.message : "WCAG audit failed");
+      setProgress(null);
     } finally {
-      setRunning(false);
+      if (runIdRef.current === runId) {
+        setRunning(false);
+      }
     }
   };
 
@@ -306,13 +416,42 @@ export function WcagSim() {
           disabled={!ready || running}
           onClick={() => void runAudit()}
         >
-          {running ? "Running audit..." : "Run WCAG audit"}
+          {running
+            ? progress
+              ? progress.phase === "axe"
+                ? `axe ${progress.current}/${progress.total}…`
+                : `Check ${progress.current}/${progress.total}…`
+              : "Running audit…"
+            : "Run WCAG audit"}
         </button>
         <span className="font-mono text-xs text-muted">
-          Target: homepage sections (nav, hero, about, expertise, experience, education,
-          contact)
+          {progress
+            ? progress.label
+            : "Target: homepage sections (nav, hero, about, expertise, experience, education, contact)"}
         </span>
       </div>
+
+      {progress ? (
+        <div className="border-b border-line px-4 py-3 sm:px-5">
+          <div className="mb-2 flex flex-wrap items-center justify-between gap-2 font-mono text-xs text-muted">
+            <span>
+              {progress.phase === "axe" ? "axe-core" : "Section checks"} ·{" "}
+              {progress.current}/{progress.total}
+            </span>
+            <span className="text-accent truncate max-w-[60%]">
+              {progress.label}
+            </span>
+          </div>
+          <div className="h-1.5 overflow-hidden border border-line bg-bg">
+            <div
+              className="h-full bg-accent transition-[width] duration-300 ease-out"
+              style={{
+                width: `${Math.round((progress.current / Math.max(1, progress.total)) * 100)}%`,
+              }}
+            />
+          </div>
+        </div>
+      ) : null}
 
       {error ? (
         <p className="border-b border-line px-4 py-3 font-mono text-sm text-warn sm:px-5">
@@ -320,15 +459,23 @@ export function WcagSim() {
         </p>
       ) : null}
 
-      {summary ? (
+      {summary || (running && liveCounts.total > 0) ? (
         <div className="grid grid-cols-2 gap-3 border-b border-line px-4 py-4 sm:grid-cols-6 sm:px-5">
           {[
-            ["Section pass", summary.passes, "text-pass"],
-            ["Section fail", summary.fails, "text-warn"],
-            ["Review", summary.reviews, "text-muted"],
-            ["axe violations", summary.axeViolations, "text-warn"],
-            ["axe passes", summary.axePasses, "text-pass"],
-            ["Duration", `${summary.durationMs} ms`, "text-text"],
+            ["Section pass", summary?.passes ?? liveCounts.passes, "text-pass"],
+            ["Section fail", summary?.fails ?? liveCounts.fails, "text-warn"],
+            ["Review", summary?.reviews ?? liveCounts.reviews, "text-muted"],
+            [
+              "axe violations",
+              summary?.axeViolations ?? violations.length,
+              "text-warn",
+            ],
+            ["axe passes", summary?.axePasses ?? "…", "text-pass"],
+            [
+              "Duration",
+              summary ? `${summary.durationMs} ms` : "…",
+              "text-text",
+            ],
           ].map(([label, value, tone]) => (
             <div key={String(label)} className="border border-line bg-bg/50 px-3 py-2">
               <p className="font-mono text-[0.65rem] uppercase tracking-wider text-muted">
@@ -360,6 +507,10 @@ export function WcagSim() {
             const fails = checks.filter(
               (item) => item.sectionId === section.id && item.status === "fail",
             ).length;
+            const runningCount = checks.filter(
+              (item) =>
+                item.sectionId === section.id && item.status === "running",
+            ).length;
             return (
               <button
                 key={section.id}
@@ -373,8 +524,20 @@ export function WcagSim() {
               >
                 <span>{section.label}</span>
                 {checks.length ? (
-                  <span className={fails ? "text-warn" : "text-pass"}>
-                    {fails ? `${fails} fail` : "ok"}
+                  <span
+                    className={
+                      runningCount
+                        ? "text-accent"
+                        : fails
+                          ? "text-warn"
+                          : "text-pass"
+                    }
+                  >
+                    {runningCount
+                      ? "run"
+                      : fails
+                        ? `${fails} fail`
+                        : "ok"}
                   </span>
                 ) : null}
               </button>
@@ -406,7 +569,11 @@ export function WcagSim() {
               {filteredChecks.map((item) => (
                 <li
                   key={`${item.sectionId}-${item.id}`}
-                  className="border border-line bg-bg/40 px-3 py-2"
+                  className={`border px-3 py-2 ${
+                    item.status === "running"
+                      ? "border-accent/40 bg-accent-soft/40"
+                      : "border-line bg-bg/40"
+                  }`}
                 >
                   <div className="flex flex-wrap items-start justify-between gap-2">
                     <div>
@@ -424,7 +591,9 @@ export function WcagSim() {
                           ? "text-pass"
                           : item.status === "fail"
                             ? "text-warn"
-                            : "text-muted"
+                            : item.status === "running"
+                              ? "text-accent"
+                              : "text-muted"
                       }`}
                     >
                       {item.status}

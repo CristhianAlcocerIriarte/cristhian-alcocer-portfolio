@@ -16,11 +16,8 @@ export function Education() {
 
         <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:gap-12">
           <Reveal delay={0.08}>
-            <div className="border border-line bg-surface/60 p-6 sm:p-8">
-              <p className="font-mono text-xs uppercase tracking-[0.14em] text-accent">
-                Education
-              </p>
-              <h3 className="mt-4 font-display text-2xl tracking-tight text-text">
+            <div className="border-l border-accent/40 pl-6 sm:pl-8">
+              <h3 className="font-display text-2xl tracking-tight text-text">
                 {education.degree.title}
               </h3>
               <p className="mt-2 text-sm text-muted">{education.degree.field}</p>
@@ -29,13 +26,15 @@ export function Education() {
                 {education.degree.period}
               </p>
               <ul className="mt-6 space-y-3">
-                {education.degree.focus.map((item) => (
+                {education.degree.focus.map((item, index) => (
                   <li
                     key={item}
-                    className="text-prose text-sm leading-relaxed text-muted"
+                    className="flex gap-3 text-sm leading-relaxed text-muted"
                   >
-                    <span className="mr-2 font-mono text-accent">›</span>
-                    {item}
+                    <span className="mt-0.5 shrink-0 font-mono text-xs text-accent">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span className="text-prose">{item}</span>
                   </li>
                 ))}
               </ul>

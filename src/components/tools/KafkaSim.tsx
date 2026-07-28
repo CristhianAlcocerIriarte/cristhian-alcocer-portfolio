@@ -9,6 +9,7 @@ import {
   type KafkaMessage,
   type KafkaTopicName,
 } from "@/lib/tools/kafka-data";
+import { suiteStepDelay } from "@/lib/tools/suite-pace";
 
 export function KafkaSim() {
   const [messages, setMessages] = useState<KafkaMessage[]>(() => createSeedMessages());
@@ -49,7 +50,7 @@ export function KafkaSim() {
       const next = pending[0];
       setConsumedIds((current) => [...current, next.id]);
       setSelectedId(next.id);
-    }, 650);
+    }, suiteStepDelay(650));
 
     return () => window.clearTimeout(timer);
   }, [consuming, topicMessages, consumedIds]);

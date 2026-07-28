@@ -11,18 +11,21 @@ const body = DM_Sans({
   variable: "--font-body",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
 
 const display = Instrument_Serif({
   variable: "--font-display",
   subsets: ["latin"],
   weight: ["400"],
+  display: "swap",
 });
 
 const mono = JetBrains_Mono({
   variable: "--font-mono",
   subsets: ["latin"],
   weight: ["400", "500", "600"],
+  display: "swap",
 });
 
 const isProd = process.env.NODE_ENV === "production";
@@ -48,9 +51,11 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#090b10",
+  themeColor: "#020617",
   colorScheme: "dark",
 };
+
+const paletteBootScript = `(function(){try{var k='portfolio-palette';var a=['terminal','signal','cyan','amber'];var t=localStorage.getItem(k);if(!t||a.indexOf(t)<0)t='terminal';document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','terminal');}})();`;
 
 export default function RootLayout({
   children,
@@ -60,9 +65,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-theme="terminal"
       className={`${body.variable} ${display.variable} ${mono.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
       <head>
+        <script dangerouslySetInnerHTML={{ __html: paletteBootScript }} />
         {isProd ? (
           <meta
             httpEquiv="Content-Security-Policy"
@@ -73,7 +81,7 @@ export default function RootLayout({
       <body className="site-bg min-h-full font-sans text-text">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-accent focus:px-4 focus:py-2 focus:text-bg"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:min-h-11 focus:bg-accent focus:px-4 focus:py-2 focus:font-mono focus:text-sm focus:text-[var(--on-accent)]"
         >
           Skip to main content
         </a>

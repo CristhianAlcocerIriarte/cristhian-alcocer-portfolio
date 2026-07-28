@@ -62,7 +62,7 @@ export function FiddlerSim() {
   }, [selected]);
 
   return (
-    <div className="min-h-[560px] border border-line bg-surface/40">
+    <div className="min-h-[560px] min-w-0 overflow-x-hidden border border-line bg-surface/40">
       <div className="border-b border-line px-4 py-3 sm:px-5">
         <p className="font-mono text-[0.65rem] uppercase tracking-[0.14em] text-accent">
           Fiddler lab
@@ -74,18 +74,20 @@ export function FiddlerSim() {
         </p>
       </div>
 
-      <div className="flex flex-wrap items-center gap-3 border-b border-line px-4 py-3 sm:px-5">
-        <button
-          type="button"
-          className={`btn ${capturing ? "btn-primary" : "btn-ghost"}`}
-          onClick={() => setCapturing((value) => !value)}
-        >
-          {capturing ? "Capturing" : "Paused"}
-        </button>
-        <span className="font-mono text-xs text-muted">
-          Proxy {fiddlerCapture.proxy} · {fiddlerCapture.gateway}
-        </span>
-        <div className="ml-auto flex flex-wrap gap-2">
+      <div className="flex flex-col gap-3 border-b border-line px-4 py-3 sm:px-5">
+        <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
+          <button
+            type="button"
+            className={`btn ${capturing ? "btn-primary" : "btn-ghost"}`}
+            onClick={() => setCapturing((value) => !value)}
+          >
+            {capturing ? "Capturing" : "Paused"}
+          </button>
+          <span className="break-words font-mono text-xs leading-relaxed text-muted">
+            Proxy {fiddlerCapture.proxy} · {fiddlerCapture.gateway}
+          </span>
+        </div>
+        <div className="flex flex-wrap gap-2">
           {fiddlerFilters.map((item) => (
             <button
               key={item}
@@ -103,19 +105,52 @@ export function FiddlerSim() {
         </div>
       </div>
 
-      <div className="grid gap-0 lg:grid-cols-[1.15fr_0.85fr]">
-        <div className="border-b border-line lg:border-b-0 lg:border-r">
-          <div className="max-h-[420px] overflow-y-auto">
-            <table className="w-full text-left text-xs">
+      <div className="grid min-w-0 gap-0 lg:grid-cols-[1.15fr_0.85fr]">
+        <div className="min-w-0 border-b border-line lg:border-b-0 lg:border-r">
+          {/* Mobile: compact session cards */}
+          <ul className="max-h-[420px] overflow-y-auto md:hidden">
+            {visible.map((session, index) => (
+              <li key={session.id}>
+                <button
+                  type="button"
+                  onClick={() => setSelectedId(session.id)}
+                  className={`flex w-full min-w-0 flex-col gap-1 border-b border-line/70 px-3 py-3 text-left transition hover:bg-bg/50 ${
+                    selected?.id === session.id ? "bg-accent-soft/40" : ""
+                  }`}
+                >
+                  <div className="flex min-w-0 items-center gap-2">
+                    <span className="shrink-0 font-mono text-[0.65rem] text-muted">
+                      {index + 1}
+                    </span>
+                    <span
+                      className={`shrink-0 font-mono text-xs ${statusTone(session.result)}`}
+                    >
+                      {session.result}
+                    </span>
+                    <span className="min-w-0 truncate font-mono text-xs text-accent">
+                      {session.method} {session.url}
+                    </span>
+                  </div>
+                  <p className="truncate pl-5 font-mono text-[0.65rem] text-muted">
+                    {session.protocol} · {session.host}
+                  </p>
+                </button>
+              </li>
+            ))}
+          </ul>
+
+          {/* Desktop: full session table */}
+          <div className="hidden max-h-[420px] overflow-y-auto md:block">
+            <table className="w-full table-fixed text-left text-xs">
               <thead className="sticky top-0 bg-surface font-mono text-[0.65rem] uppercase tracking-wider text-muted">
                 <tr className="border-b border-line">
-                  <th className="px-3 py-2">#</th>
-                  <th className="px-2 py-2">Result</th>
-                  <th className="px-2 py-2">Protocol</th>
-                  <th className="px-2 py-2">Host</th>
+                  <th className="w-10 px-3 py-2">#</th>
+                  <th className="w-14 px-2 py-2">Result</th>
+                  <th className="w-16 px-2 py-2">Protocol</th>
+                  <th className="w-[22%] px-2 py-2">Host</th>
                   <th className="px-2 py-2">URL</th>
-                  <th className="px-2 py-2">Body</th>
-                  <th className="px-3 py-2">Process</th>
+                  <th className="w-16 px-2 py-2">Body</th>
+                  <th className="w-[18%] px-3 py-2">Process</th>
                 </tr>
               </thead>
               <tbody>
@@ -132,16 +167,16 @@ export function FiddlerSim() {
                       {session.result}
                     </td>
                     <td className="px-2 py-2 font-mono text-muted">{session.protocol}</td>
-                    <td className="max-w-[120px] truncate px-2 py-2 text-text/85">
-                      {session.host}
-                    </td>
-                    <td className="max-w-[180px] truncate px-2 py-2 font-mono text-accent">
+                    <td className="truncate px-2 py-2 text-text/85">{session.host}</td>
+                    <td className="truncate px-2 py-2 font-mono text-accent">
                       {session.method} {session.url}
                     </td>
                     <td className="px-2 py-2 font-mono text-muted">
                       {session.bodySize}
                     </td>
-                    <td className="px-3 py-2 font-mono text-muted">{session.process}</td>
+                    <td className="truncate px-3 py-2 font-mono text-muted">
+                      {session.process}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -149,14 +184,14 @@ export function FiddlerSim() {
           </div>
         </div>
 
-        <div className="px-4 py-3 sm:px-5">
+        <div className="min-w-0 px-4 py-3 sm:px-5">
           {selected ? (
             <>
-              <div className="flex flex-wrap items-center gap-2">
+              <div className="flex min-w-0 flex-col gap-1 sm:flex-row sm:flex-wrap sm:items-center sm:gap-2">
                 <span className={`font-mono text-sm ${statusTone(selected.result)}`}>
                   {selected.result}
                 </span>
-                <span className="font-mono text-xs text-accent">
+                <span className="min-w-0 break-all font-mono text-xs text-accent">
                   {selected.method} {selected.host}
                   {selected.url}
                 </span>
@@ -164,7 +199,7 @@ export function FiddlerSim() {
                   {selected.durationMs} ms
                 </span>
               </div>
-              <p className="mt-2 text-sm text-muted">{selected.notes}</p>
+              <p className="mt-2 break-words text-sm text-muted">{selected.notes}</p>
 
               <div className="mt-4 flex flex-wrap gap-2">
                 {(["request", "response"] as const).map((item) => (
@@ -197,7 +232,7 @@ export function FiddlerSim() {
                 ))}
               </div>
 
-              <div className="mt-3 max-h-[300px] overflow-auto border border-line bg-bg p-3">
+              <div className="mt-3 max-h-[300px] min-w-0 overflow-x-hidden overflow-y-auto border border-line bg-bg p-3">
                 {inspector === "headers" ? (
                   <dl className="space-y-2 font-mono text-[0.72rem]">
                     {Object.entries(
@@ -214,7 +249,7 @@ export function FiddlerSim() {
                 ) : null}
 
                 {inspector === "textview" ? (
-                  <pre className="whitespace-pre-wrap font-mono text-[0.72rem] leading-relaxed text-text/90">
+                  <pre className="max-w-full whitespace-pre-wrap break-words font-mono text-[0.72rem] leading-relaxed text-text/90">
                     {side === "request"
                       ? selected.requestBody || "(no request body)"
                       : selected.responseBody || "(empty body)"}
@@ -222,7 +257,7 @@ export function FiddlerSim() {
                 ) : null}
 
                 {inspector === "raw" ? (
-                  <pre className="whitespace-pre-wrap font-mono text-[0.72rem] leading-relaxed text-text/90">
+                  <pre className="max-w-full whitespace-pre-wrap break-words font-mono text-[0.72rem] leading-relaxed text-text/90">
                     {side === "request" ? rawRequest : rawResponse}
                   </pre>
                 ) : null}

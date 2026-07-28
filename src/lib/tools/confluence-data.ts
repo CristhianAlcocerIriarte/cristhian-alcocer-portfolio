@@ -51,7 +51,7 @@ export const confluencePages: ConfluencePage[] = [
     updated: "2026-07-27",
     body: [
       "Route: /tools - interactive simulations seeded with real portfolio data.",
-      "Tab order: Confluence, Jira, SQL, Postman, Playwright, JMeter, Fiddler, WCAG, Kafka.",
+      "Tab order: Confluence, Jira, SQL, Postman, Playwright, JMeter, Fiddler, WCAG, Mobile, Kafka.",
       "Confluence - this documentation space (architecture, strategy, releases, contracts).",
       "Jira - Epic PORT-1, stories, 9 test cases (PORT-10..PORT-18) and executions mapped to Playwright.",
       "SQL - in-memory portfolio_db with SELECT / WHERE / ORDER BY / LIMIT / SHOW / DESCRIBE (LIKE patterns are regex-safe).",
@@ -60,6 +60,7 @@ export const confluencePages: ConfluencePage[] = [
       "JMeter - load plan against the same mock APIs (users, loops, samplers).",
       "Fiddler - HTTP(S) session capture of homepage, Tools, APIs, fonts and WhatsApp redirect.",
       "WCAG - section checks plus axe-core against the live homepage preview.",
+      "Mobile - Android & iOS device lab with live viewport preview and mobile QA suite (touch targets, overflow, nav).",
       "Kafka - topics for page views, contact messages, QA results and Tools audit events.",
     ],
   },
@@ -80,7 +81,7 @@ export const confluencePages: ConfluencePage[] = [
       "2) UI smoke (hero, navigation, section reachability).",
       "3) Contact channels (email, WhatsApp, LinkedIn, Maps) and destination checks.",
       "4) Accessibility basics (skip link, document title) plus WCAG lab for deeper checks.",
-      "5) Tools lab demos for Postman, Playwright, JMeter, Jira, Confluence, SQL, Fiddler, WCAG and Kafka.",
+      "5) Tools lab demos for Postman, Playwright, JMeter, Jira, Confluence, SQL, Fiddler, WCAG, Mobile and Kafka.",
       "Environments: localhost:3000 (dev), static out/ (CI), GitHub Pages (prod).",
     ],
   },
@@ -116,6 +117,7 @@ export const confluencePages: ConfluencePage[] = [
       "v1.5 - Fiddler lab for HTTP(S) traffic capture; Tools tab order: Confluence, Jira, SQL, Postman, JMeter, Fiddler, WCAG, Kafka.",
       "v1.6 - Contact section reorganized (labeled channels + form); footer All rights reserved; SQL LIKE hardening; CSP + _headers defense in depth.",
       "v1.8 - Contact section is channels-only (removed Send a message form); Location opens Google Maps at Plaza 14 de Septiembre.",
+      "v1.9 - Mobile lab (Android & iOS device preview + mobile QA suite) inserted after WCAG in Tools.",
     ],
   },
   {

@@ -7,6 +7,9 @@ test.describe("Portfolio - full automated suite", () => {
 
   test("hero renders brand, headline and primary CTAs", async ({ page }) => {
     await expect(page.getByTestId("hero")).toBeVisible();
+    await expect(page.getByTestId("hero-brand")).toContainText(
+      "Cristhian Alcocer",
+    );
     await expect(page.getByRole("heading", { level: 1 })).toContainText(
       "Quality that ships",
     );

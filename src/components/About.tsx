@@ -28,7 +28,7 @@ export function About() {
                 <p key={paragraph.slice(0, 32)}>{paragraph}</p>
               ))}
               {about.recommendation ? (
-                <figure className="mt-8 border border-line bg-surface/50 p-5 sm:p-6">
+                <figure className="mt-8 border-l border-accent/40 pl-5 sm:pl-6">
                   <blockquote className="text-prose text-sm leading-relaxed text-text/85 sm:text-base">
                     “{about.recommendation.quote}”
                   </blockquote>

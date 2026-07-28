@@ -219,57 +219,62 @@ export function PlaywrightSim() {
   };
 
   return (
-    <div className="min-h-[560px] border border-line bg-surface/40">
+    <div className="min-h-[560px] min-w-0 overflow-x-hidden border border-line bg-surface/40">
       <div className="border-b border-line px-4 py-3 sm:px-5">
         <p className="font-mono text-[0.65rem] uppercase tracking-[0.14em] text-accent">
           Playwright lab
         </p>
         <h3 className="mt-1 text-lg text-text">{liveSuiteMeta.suiteName}</h3>
-        <p className="mt-1 text-sm text-muted">
+        <p className="mt-1 break-words text-sm text-muted">
           Live browser assertions against the portfolio homepage preview. Run one
           test, a selection, or the full suite mapped to{" "}
-          <span className="font-mono text-accent">{liveSuiteMeta.specFile}</span>.
+          <span className="break-all font-mono text-accent">
+            {liveSuiteMeta.specFile}
+          </span>
+          .
         </p>
       </div>
 
-      <div className="flex flex-wrap items-center gap-2 border-b border-line px-4 py-3 sm:px-5">
-        <button
-          type="button"
-          className="btn btn-primary"
-          disabled={!frameReady || phase === "running"}
-          onClick={runAll}
-        >
-          Run all ({liveTestCases.length})
-        </button>
-        <button
-          type="button"
-          className="btn btn-ghost"
-          disabled={!frameReady || phase === "running" || selected.size === 0}
-          onClick={runSelected}
-        >
-          Run selected ({selected.size})
-        </button>
-        <button
-          type="button"
-          className="btn btn-ghost"
-          disabled={phase === "running"}
-          onClick={reset}
-        >
-          Reset
-        </button>
-        <span className="ml-auto font-mono text-xs text-muted">
+      <div className="flex flex-col gap-3 border-b border-line px-4 py-3 sm:flex-row sm:flex-wrap sm:items-center sm:px-5">
+        <div className="flex flex-wrap gap-2">
+          <button
+            type="button"
+            className="btn btn-primary"
+            disabled={!frameReady || phase === "running"}
+            onClick={runAll}
+          >
+            Run all ({liveTestCases.length})
+          </button>
+          <button
+            type="button"
+            className="btn btn-ghost"
+            disabled={!frameReady || phase === "running" || selected.size === 0}
+            onClick={runSelected}
+          >
+            Run selected ({selected.size})
+          </button>
+          <button
+            type="button"
+            className="btn btn-ghost"
+            disabled={phase === "running"}
+            onClick={reset}
+          >
+            Reset
+          </button>
+        </div>
+        <span className="font-mono text-xs leading-relaxed text-muted sm:ml-auto">
           {frameReady ? "preview ready" : "loading preview…"} · {passed} passed ·{" "}
           {failed} failed · {(elapsedMs / 1000).toFixed(1)}s
         </span>
       </div>
 
-      <div className="grid gap-0 lg:grid-cols-[1.05fr_0.95fr]">
-        <div className="border-b border-line lg:border-b-0 lg:border-r">
+      <div className="grid min-w-0 gap-0 lg:grid-cols-[1.05fr_0.95fr]">
+        <div className="min-w-0 border-b border-line lg:border-b-0 lg:border-r">
           <div className="flex items-center justify-between gap-2 border-b border-line px-4 py-2">
-            <p className="font-mono text-[0.65rem] uppercase tracking-wider text-muted">
+            <p className="min-w-0 truncate font-mono text-[0.65rem] uppercase tracking-wider text-muted">
               Spec · {liveSuiteMeta.project}
             </p>
-            <div className="flex gap-2">
+            <div className="flex shrink-0 gap-2">
               <button
                 type="button"
                 className="font-mono text-[0.65rem] text-accent hover:underline"
@@ -287,7 +292,7 @@ export function PlaywrightSim() {
             </div>
           </div>
 
-          <ul className="max-h-[420px] overflow-y-auto">
+          <ul className="max-h-[420px] overflow-y-auto overflow-x-hidden">
             {liveTestCases.map((test, index) => {
               const row = rows[test.id] ?? { status: "idle" as const };
               return (
@@ -297,10 +302,10 @@ export function PlaywrightSim() {
                     activeId === test.id ? "bg-accent-soft/35" : ""
                   }`}
                 >
-                  <div className="flex items-start gap-2 px-3 py-3 sm:px-4">
+                  <div className="flex min-w-0 items-start gap-2 px-3 py-3 sm:px-4">
                     <input
                       type="checkbox"
-                      className="mt-1 accent-[var(--accent)]"
+                      className="mt-1 shrink-0 accent-[var(--accent)]"
                       checked={selected.has(test.id)}
                       onChange={() => toggleSelected(test.id)}
                       aria-label={`Select ${test.title}`}
@@ -311,18 +316,20 @@ export function PlaywrightSim() {
                       className="min-w-0 flex-1 text-left"
                       onClick={() => setActiveId(test.id)}
                     >
-                      <div className="flex items-center gap-2">
+                      <div className="flex min-w-0 items-start gap-2">
                         <span
-                          className={`font-mono text-xs ${statusTone(row.status)}`}
+                          className={`shrink-0 font-mono text-xs ${statusTone(row.status)}`}
                         >
                           {statusIcon(row.status)}
                         </span>
-                        <span className="font-mono text-[0.65rem] text-muted">
+                        <span className="shrink-0 font-mono text-[0.65rem] text-muted">
                           {String(index + 1).padStart(2, "0")}
                         </span>
-                        <span className="truncate text-sm text-text">{test.title}</span>
+                        <span className="min-w-0 break-words text-sm leading-snug text-text">
+                          {test.title}
+                        </span>
                       </div>
-                      <p className="mt-1 font-mono text-[0.65rem] text-muted">
+                      <p className="mt-1 break-words font-mono text-[0.65rem] text-muted">
                         {row.durationMs ? `${row.durationMs}ms` : "—"}
                         {row.error ? ` · ${row.error}` : ""}
                       </p>
@@ -342,35 +349,35 @@ export function PlaywrightSim() {
           </ul>
         </div>
 
-        <div className="grid gap-0">
-          <div className="border-b border-line px-4 py-3 sm:px-5">
+        <div className="grid min-w-0 gap-0">
+          <div className="min-w-0 border-b border-line px-4 py-3 sm:px-5">
             <p className="font-mono text-[0.65rem] uppercase tracking-wider text-muted">
               Active test
             </p>
-            <p className="mt-1 text-sm text-text">{active?.title}</p>
-            <p className="mt-1 font-mono text-[0.7rem] text-muted">
+            <p className="mt-1 break-words text-sm text-text">{active?.title}</p>
+            <p className="mt-1 break-all font-mono text-[0.7rem] leading-relaxed text-muted">
               npx playwright test {liveSuiteMeta.specFile} -g &quot;
               {active?.playwrightName}&quot;
             </p>
             {rows[active?.id ?? ""]?.error ? (
-              <p className="mt-2 font-mono text-xs text-warn">
+              <p className="mt-2 break-words font-mono text-xs text-warn">
                 {rows[active?.id ?? ""].error}
               </p>
             ) : null}
           </div>
 
-          <div className="border-b border-line bg-bg px-4 py-3 sm:px-5">
+          <div className="min-w-0 border-b border-line bg-bg px-4 py-3 sm:px-5">
             <p className="mb-2 font-mono text-[0.65rem] uppercase tracking-wider text-muted">
               Reporter output
             </p>
-            <pre className="max-h-[160px] overflow-auto font-mono text-[0.72rem] leading-relaxed text-text/90">
+            <pre className="max-h-[160px] max-w-full overflow-x-hidden overflow-y-auto whitespace-pre-wrap break-words font-mono text-[0.72rem] leading-relaxed text-text/90">
               {log.length
                 ? log.join("\n")
                 : "Waiting to run… select tests and click Run."}
             </pre>
           </div>
 
-          <div className="px-4 py-3 sm:px-5">
+          <div className="min-w-0 px-4 py-3 sm:px-5">
             <p className="mb-2 font-mono text-[0.65rem] uppercase tracking-wider text-muted">
               Homepage under test
             </p>
@@ -379,7 +386,7 @@ export function PlaywrightSim() {
                 ref={iframeRef}
                 title="Portfolio homepage under Playwright tests"
                 src={homeHref()}
-                className="h-[260px] w-full bg-bg"
+                className="h-[220px] w-full max-w-full bg-bg sm:h-[260px]"
                 onLoad={() => {
                   const ready = () => {
                     const doc = iframeRef.current?.contentDocument;

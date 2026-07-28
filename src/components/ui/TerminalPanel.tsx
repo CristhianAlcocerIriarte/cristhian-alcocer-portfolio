@@ -27,14 +27,14 @@ export function TerminalPanel() {
       timers.push(
         window.setTimeout(() => {
           setVisibleLines(index + 1);
-        }, 450 + index * 380),
+        }, 280 + index * 220),
       );
     });
 
     timers.push(
       window.setTimeout(
         () => setShowSummary(true),
-        450 + terminalTests.length * 380 + 200,
+        280 + terminalTests.length * 220 + 160,
       ),
     );
 
@@ -83,11 +83,13 @@ export function TerminalPanel() {
                   opacity: visible ? 1 : 0,
                   y: visible ? 0 : 6,
                 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.22 }}
                 className="flex flex-wrap items-baseline gap-x-2 gap-y-1"
                 aria-hidden={!visible}
               >
-                <span className="text-pass">✓</span>
+                <span className="text-pass" aria-hidden>
+                  PASS
+                </span>
                 <span className="text-text/90">{test.assertion}</span>
                 <span className="text-muted">{test.duration}</span>
               </motion.div>

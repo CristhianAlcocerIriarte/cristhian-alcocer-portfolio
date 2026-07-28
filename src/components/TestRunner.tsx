@@ -23,10 +23,10 @@ const idleRows = (): Record<string, RowState> =>
   );
 
 function statusIcon(status: LiveTestStatus) {
-  if (status === "passed") return "✓";
-  if (status === "failed") return "✘";
-  if (status === "running") return "●";
-  return "○";
+  if (status === "passed") return "PASS";
+  if (status === "failed") return "FAIL";
+  if (status === "running") return "RUN";
+  return "IDLE";
 }
 
 export function TestRunner() {
@@ -116,11 +116,14 @@ export function TestRunner() {
         type="button"
         data-testid="run-suite-fab"
         onClick={openAndRun}
-        className="suite-fab group fixed bottom-5 right-5 z-40 inline-flex items-center gap-3 border border-accent/50 bg-bg/90 px-4 py-3 shadow-[0_12px_40px_rgba(0,0,0,0.45)] backdrop-blur-md transition hover:border-accent hover:bg-accent-soft"
+        className="suite-fab group fixed bottom-5 right-5 z-[40] inline-flex min-h-11 items-center gap-3 border border-accent/50 bg-bg/90 px-4 py-3 shadow-[0_12px_40px_rgba(0,0,0,0.45)] backdrop-blur-md transition duration-[220ms] hover:border-accent hover:bg-accent-soft active:scale-[0.98]"
         aria-haspopup="dialog"
+        aria-label="Run Playwright full suite"
       >
-        <span className="relative flex h-8 w-8 items-center justify-center bg-accent text-bg">
-          <span className="font-mono text-sm font-bold">▶</span>
+        <span className="relative flex h-8 w-8 items-center justify-center bg-accent text-[var(--on-accent)]">
+          <span className="font-mono text-sm font-bold" aria-hidden>
+            RUN
+          </span>
           <span className="suite-fab-ping pointer-events-none absolute inset-0 bg-accent/40" aria-hidden />
         </span>
         <span className="text-left">
@@ -134,10 +137,11 @@ export function TestRunner() {
       <AnimatePresence>
         {open ? (
           <motion.div
-            className="fixed inset-0 z-50 flex items-end justify-center bg-black/70 p-3 backdrop-blur-sm sm:items-center sm:p-6"
+            className="fixed inset-0 z-[50] flex items-end justify-center bg-[var(--scrim)] p-3 backdrop-blur-sm sm:items-center sm:p-6"
             initial={reduceMotion ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={reduceMotion ? undefined : { opacity: 0 }}
+            transition={{ duration: 0.22 }}
             onClick={close}
           >
             <motion.div
@@ -146,10 +150,10 @@ export function TestRunner() {
               aria-labelledby="test-runner-title"
               data-testid="test-runner"
               className="terminal-window flex max-h-[min(92vh,860px)] w-full max-w-3xl flex-col overflow-hidden"
-              initial={reduceMotion ? false : { opacity: 0, y: 28, scale: 0.98 }}
+              initial={reduceMotion ? false : { opacity: 0, y: 20, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={reduceMotion ? undefined : { opacity: 0, y: 20, scale: 0.98 }}
-              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              exit={reduceMotion ? undefined : { opacity: 0, y: 12, scale: 0.98 }}
+              transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
               onClick={(event) => event.stopPropagation()}
             >
               <div className="terminal-chrome justify-between">
@@ -169,7 +173,8 @@ export function TestRunner() {
                   type="button"
                   data-testid="test-runner-close"
                   onClick={close}
-                  className="font-mono text-xs text-muted transition hover:text-text"
+                  className="inline-flex min-h-11 items-center px-2 font-mono text-xs text-muted transition duration-[220ms] hover:text-text"
+                  aria-label="Close test runner"
                 >
                   Esc · Close
                 </button>

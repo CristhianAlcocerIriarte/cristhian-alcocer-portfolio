@@ -6,6 +6,7 @@ import { FiddlerSim } from "@/components/tools/FiddlerSim";
 import { JiraSim } from "@/components/tools/JiraSim";
 import { JMeterSim } from "@/components/tools/JMeterSim";
 import { KafkaSim } from "@/components/tools/KafkaSim";
+import { MobileSim } from "@/components/tools/MobileSim";
 import { PlaywrightSim } from "@/components/tools/PlaywrightSim";
 import { PostmanSim } from "@/components/tools/PostmanSim";
 import { SqlSim } from "@/components/tools/SqlSim";
@@ -20,6 +21,7 @@ const tabs = [
   { id: "jmeter", label: "JMeter", blurb: "Load test against portfolio APIs" },
   { id: "fiddler", label: "Fiddler", blurb: "HTTP(S) traffic inspection" },
   { id: "wcag", label: "WCAG", blurb: "Accessibility audit by section" },
+  { id: "mobile", label: "Mobile", blurb: "Android & iOS device lab" },
   { id: "kafka", label: "Kafka", blurb: "Event streaming for portfolio flows" },
 ] as const;
 
@@ -29,7 +31,7 @@ export function ToolsShell() {
   const [active, setActive] = useState<TabId>("confluence");
 
   return (
-    <div>
+    <div className="min-w-0">
       <div className="mb-6 max-w-3xl">
         <p className="font-mono text-xs uppercase tracking-[0.14em] text-accent">
           Tools lab
@@ -39,18 +41,18 @@ export function ToolsShell() {
         </h1>
         <p className="text-prose mt-3 text-base leading-relaxed text-muted sm:text-lg">
           Interactive demos of Confluence, Jira, SQL, Postman, Playwright, JMeter,
-          Fiddler, WCAG and Kafka - seeded with real portfolio data so you can explore
-          how I work with everyday QA and delivery tools.
+          Fiddler, WCAG, Mobile and Kafka - seeded with real portfolio data so you can
+          explore how I work with everyday QA and delivery tools.
         </p>
       </div>
 
-      <div className="mb-4 flex flex-wrap gap-2 border-b border-line pb-3">
+      <div className="mb-4 grid grid-cols-2 gap-2 border-b border-line pb-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             type="button"
             onClick={() => setActive(tab.id)}
-            className={`border px-3 py-2 text-left transition ${
+            className={`flex h-full min-h-[4.25rem] w-full flex-col justify-center border px-3 py-2 text-left transition ${
               active === tab.id
                 ? "border-accent bg-accent-soft text-accent"
                 : "border-line-strong text-muted hover:border-accent/50 hover:text-text"
@@ -59,7 +61,9 @@ export function ToolsShell() {
             <span className="block font-mono text-xs font-semibold tracking-wide">
               {tab.label}
             </span>
-            <span className="mt-0.5 block text-[0.7rem] opacity-80">{tab.blurb}</span>
+            <span className="mt-0.5 line-clamp-2 block text-[0.7rem] leading-snug opacity-80">
+              {tab.blurb}
+            </span>
           </button>
         ))}
       </div>
@@ -71,6 +75,7 @@ export function ToolsShell() {
       {active === "confluence" ? <ConfluenceSim /> : null}
       {active === "sql" ? <SqlSim /> : null}
       {active === "wcag" ? <WcagSim /> : null}
+      {active === "mobile" ? <MobileSim /> : null}
       {active === "kafka" ? <KafkaSim /> : null}
       {active === "fiddler" ? <FiddlerSim /> : null}
     </div>

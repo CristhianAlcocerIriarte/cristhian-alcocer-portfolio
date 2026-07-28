@@ -2,12 +2,19 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { executeMockApi, portfolioCollection } from "@/lib/tools/mock-api";
+import {
+  suiteResultPause,
+  suiteStepDelay,
+  wait,
+} from "@/lib/tools/suite-pace";
 
 type Sample = {
   path: string;
   method: string;
   elapsed: number;
   success: boolean;
+  status: number;
+  label: string;
 };
 
 type RunStats = {
@@ -24,12 +31,13 @@ const endpoints = portfolioCollection
   .slice(0, 6);
 
 export function JMeterSim() {
-  const [users, setUsers] = useState(20);
-  const [loops, setLoops] = useState(3);
+  const [users, setUsers] = useState(8);
+  const [loops, setLoops] = useState(2);
   const [running, setRunning] = useState(false);
   const [progress, setProgress] = useState(0);
   const [samples, setSamples] = useState<Sample[]>([]);
   const [log, setLog] = useState<string[]>([]);
+  const [activeLabel, setActiveLabel] = useState<string | null>(null);
 
   const stats: RunStats | null = useMemo(() => {
     if (!samples.length) return null;
@@ -54,14 +62,25 @@ export function JMeterSim() {
       const nextSamples: Sample[] = [];
       const nextLog: string[] = [
         `Starting Thread Group: ${users} users x ${loops} loops`,
+        `Samplers: ${endpoints.length} · pacing enabled`,
       ];
+      setLog([...nextLog]);
+
       const total = users * loops * endpoints.length;
+      const step = suiteStepDelay(total > 80 ? 35 : total > 30 ? 70 : 120);
       let done = 0;
 
       for (let loop = 1; loop <= loops; loop += 1) {
         for (let user = 1; user <= users; user += 1) {
           if (cancelled) return;
           for (const endpoint of endpoints) {
+            if (cancelled) return;
+
+            const label = `VU-${user} ${endpoint.method} ${endpoint.path}`;
+            setActiveLabel(`Loop ${loop} · ${label}`);
+            await wait(step);
+            if (cancelled) return;
+
             const body =
               endpoint.method === "POST"
                 ? {
@@ -80,25 +99,28 @@ export function JMeterSim() {
               method: endpoint.method,
               elapsed: response.latencyMs + Math.round(Math.random() * 25),
               success: response.status < 400,
+              status: response.status,
+              label,
             };
             nextSamples.push(sample);
             done += 1;
-            if (done % Math.max(1, Math.floor(total / 12)) === 0 || done === total) {
-              nextLog.push(
-                `VU-${user} ${endpoint.method} ${endpoint.path} -> ${response.status} (${sample.elapsed} ms)`,
-              );
-              setSamples([...nextSamples]);
-              setLog([...nextLog]);
-              setProgress(Math.round((done / total) * 100));
-            }
+            nextLog.push(
+              `${label} -> ${response.status} (${sample.elapsed} ms)`,
+            );
+            setSamples([...nextSamples]);
+            setLog([...nextLog]);
+            setProgress(Math.round((done / total) * 100));
+            await wait(suiteResultPause(step));
           }
         }
       }
 
+      if (cancelled) return;
       nextLog.push("TearDown complete. Aggregate report ready.");
       setLog([...nextLog]);
       setSamples([...nextSamples]);
       setProgress(100);
+      setActiveLabel(null);
       setRunning(false);
     };
 
@@ -117,6 +139,7 @@ export function JMeterSim() {
         <h3 className="mt-1 text-lg text-text">Portfolio API Load Test</h3>
         <p className="mt-1 text-sm text-muted">
           Thread Group hits the same mock APIs exposed in the Postman collection.
+          Samples execute one by one so you can follow the Results Tree.
         </p>
       </div>
 
@@ -128,7 +151,7 @@ export function JMeterSim() {
           <input
             type="number"
             min={1}
-            max={50}
+            max={20}
             value={users}
             disabled={running}
             onChange={(event) => setUsers(Number(event.target.value))}
@@ -142,7 +165,7 @@ export function JMeterSim() {
           <input
             type="number"
             min={1}
-            max={10}
+            max={5}
             value={loops}
             disabled={running}
             onChange={(event) => setLoops(Number(event.target.value))}
@@ -158,18 +181,24 @@ export function JMeterSim() {
               setSamples([]);
               setLog([]);
               setProgress(0);
+              setActiveLabel(null);
               setRunning(true);
             }}
           >
-            {running ? "Running..." : "Start test"}
+            {running
+              ? `Running ${progress}%…`
+              : "Start test"}
           </button>
         </div>
       </div>
 
       <div className="border-b border-line px-4 py-3 sm:px-5">
-        <div className="mb-2 flex items-center justify-between font-mono text-xs text-muted">
+        <div className="mb-2 flex flex-wrap items-center justify-between gap-2 font-mono text-xs text-muted">
           <span>Progress</span>
-          <span>{progress}%</span>
+          <span>
+            {progress}%
+            {activeLabel ? ` · ${activeLabel}` : ""}
+          </span>
         </div>
         <div className="h-2 overflow-hidden bg-bg">
           <div
@@ -188,7 +217,7 @@ export function JMeterSim() {
             ["Min/Max", `${stats.min}/${stats.max}`],
             ["Throughput", `${stats.throughput}/s`],
           ].map(([label, value]) => (
-            <div key={label} className="border border-line bg-bg/50 px-3 py-2">
+            <div key={String(label)} className="border border-line bg-bg/50 px-3 py-2">
               <p className="font-mono text-[0.65rem] uppercase tracking-wider text-muted">
                 {label}
               </p>

@@ -12,10 +12,10 @@ export function Hero() {
     reduceMotion
       ? {}
       : {
-          initial: { opacity: 0, y: 24 },
+          initial: { opacity: 0, y: 16 },
           animate: { opacity: 1, y: 0 },
           transition: {
-            duration: 0.65,
+            duration: 0.38,
             ease: [0.22, 1, 0.36, 1] as const,
             delay,
           },
@@ -30,32 +30,32 @@ export function Hero() {
       <div className="container-narrow section-pad !py-0">
         <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-14">
           <div>
-            <motion.h1
-              className="font-display text-[clamp(2.4rem,6vw,4.25rem)] leading-[1.05] tracking-tight text-text"
-              {...fade(0.2)}
+            <motion.p
+              className="font-display text-[clamp(2.75rem,7vw,4.75rem)] leading-[1.02] tracking-tight text-text"
+              data-testid="hero-brand"
+              {...fade(0.1)}
             >
-              Quality that ships
-              <br />
+              {site.name}
+            </motion.p>
+
+            <motion.h1
+              className="mt-4 max-w-xl text-xl font-medium leading-snug tracking-tight text-text/90 sm:text-2xl"
+              {...fade(0.16)}
+            >
+              Quality that ships{" "}
               <span className="text-accent">without surprises.</span>
             </motion.h1>
 
             <motion.p
-              className="text-prose mt-5 max-w-xl text-base font-medium text-text/85 sm:text-lg"
-              {...fade(0.28)}
+              className="text-prose mt-5 max-w-xl text-base leading-relaxed text-muted sm:text-lg"
+              {...fade(0.22)}
             >
               {site.summary}
             </motion.p>
 
-            <motion.p
-              className="text-prose mt-4 max-w-xl text-sm leading-relaxed text-muted sm:text-base"
-              {...fade(0.34)}
-            >
-              {site.intro}
-            </motion.p>
-
             <motion.div
               className="mt-8 flex flex-wrap gap-3"
-              {...fade(0.42)}
+              {...fade(0.3)}
             >
               <a
                 href="#experience"
@@ -83,7 +83,7 @@ export function Hero() {
             </motion.div>
           </div>
 
-          <motion.div {...fade(0.35)} className="lg:pt-4">
+          <motion.div {...fade(0.24)} className="lg:pt-4">
             <TerminalPanel />
           </motion.div>
         </div>
