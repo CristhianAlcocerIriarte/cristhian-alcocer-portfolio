@@ -2,12 +2,11 @@ export const site = {
   name: "Cristhian Alcocer",
   fullName: "Cristhian Alcocer Iriarte",
   role: "QA Lead & Senior QA Engineer",
-  headline:
-    "QA Lead | Senior Manual QA Engineer | Agile Leadership | AI-Powered Testing",
+  headline: "QA Lead | Senior QA Engineer",
   location: "Cochabamba, Bolivia",
-  tagline: "Quality that ships without surprises.",
+  tagline: "Software Quality Powered by AI",
   summary:
-    "QA Lead · Senior Manual QA Engineer - Agile leadership & AI-powered testing",
+    "Raise your testing standards with AI technology built to optimize coverage, shorten delivery timelines, and ensure total stability.",
   intro:
     "I don’t just find bugs; I build trust through technical excellence and innovation, protecting product integrity across cloud-native platforms with Shift-Left strategy, full-stack validation and AI-enhanced QA workflows.",
   email: "cristhianalcoceririarte@gmail.com",

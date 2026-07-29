@@ -11,7 +11,7 @@ test.describe("Portfolio - full automated suite", () => {
       "Cristhian Alcocer",
     );
     await expect(page.getByRole("heading", { level: 1 })).toContainText(
-      "Quality that ships",
+      "Software Quality",
     );
     await expect(page.getByTestId("cta-experience")).toBeVisible();
     await expect(page.getByTestId("cta-linkedin")).toBeVisible();

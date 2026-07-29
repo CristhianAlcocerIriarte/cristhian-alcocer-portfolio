@@ -20,9 +20,7 @@ export function About() {
           <Reveal delay={0.08}>
             <div className="text-prose space-y-5 text-base leading-relaxed text-muted sm:text-lg">
               <p className="text-text/90">
-                <strong className="font-medium text-text">{site.fullName}</strong>
-                {" - "}
-                {site.headline}
+                <strong className="font-medium text-text">{site.headline}</strong>
               </p>
               {about.paragraphs.map((paragraph) => (
                 <p key={paragraph.slice(0, 32)}>{paragraph}</p>

@@ -59,7 +59,7 @@ export const liveTestCases: LiveTestCase[] = [
         ),
         "Missing hero brand name",
       );
-      assert(hero.textContent?.includes("Quality that ships"), "Missing hero headline");
+      assert(hero.textContent?.includes("Software Quality"), "Missing hero headline");
       assert(qs(doc, '[data-testid="cta-experience"]'), "Missing experience CTA");
       assert(qs(doc, '[data-testid="cta-linkedin"]'), "Missing LinkedIn CTA");
       assert(qs(doc, '[data-testid="cta-tools"]'), "Missing Tools CTA");

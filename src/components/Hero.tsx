@@ -42,8 +42,8 @@ export function Hero() {
               className="mt-4 max-w-xl text-xl font-medium leading-snug tracking-tight text-text/90 sm:text-2xl"
               {...fade(0.16)}
             >
-              Quality that ships{" "}
-              <span className="text-accent">without surprises.</span>
+              Software Quality{" "}
+              <span className="text-accent">Powered by AI</span>
             </motion.h1>
 
             <motion.p
